@@ -3,7 +3,7 @@
 
 # NB! Set your site's url, otherwise stuff will break :)
 
-url: "https://panossakkos.github.io"
+url: "https://ramprasaath21.github.io"
 
 # If you're hosting your site at a Project repository on GitHub pages
 # (https://yourusername.github.io/repository-name)
@@ -29,10 +29,10 @@ force-https: True
 #############
 
 lang: "en"
-author: "John Smith"
-title: "{ John Smith }"
-description: "Blog and website of John Smith, blogging mainly for tech. Opinions expressed are mine."
-keywords: "smith, jones, personal, jekyll, theme"
+author: "Ramprasaath"
+title: "{ Ramprasaath }"
+description: "Blog and website of Ramprasaath."
+keywords: "ramprasaath, ram, prasaath, computer vision, neural networks, deep learning"
 favicon: "/img/favicon.ico"
 
 ################
@@ -100,7 +100,7 @@ pinterest-share: True
 pocket-share: True
 vkontakte-share: True
 
-disqus-shortname: "panossakkos"
+disqus-shortname: "ram"
 
 syntax-highlight: True
 
@@ -110,11 +110,19 @@ syntax-highlight: True
 
 events:
   - image: "/img/timeline/spidertocat.png"
-    date: "September 2013 - Today"
-    description: "Saving the neighborhood!"
+    date: "Aug 2015 - Today"
+    description: "PhD at Virginia Tech!"
   - image: "/img/timeline/baracktocat.jpg"
-    date: "September 2007 - August 2013"
-    description: "Started coding"
+    date: "Aug 2010 - May 2014"
+    description: "Undergrad at BITS-Pilani"
+  - image: "/img/timeline/baracktocat.jpg"
+    date: "May 2014 - Dec 2014"
+    description: "Research Intern at Oxford University"
+  - image: "/img/timeline/baracktocat.jpg"
+    date: "May 2013 - Aug 2013"
+    description: "Summer Intern at Brown University"
+
+
 
 # First image of the Timeline
 
@@ -124,7 +132,7 @@ timeline-img: "/img/timeline/default.png"
 # Contact #
 ###########
 
-email: "your@email.here"
+email: "ram21 at vt dot edu"
 
 ################
 # Author Blurb #
@@ -134,7 +142,7 @@ email: "your@email.here"
 # This works best when your author blurb image has a transparent background, or matches your site background color.
 
 # if the author_blurb is not set, then this feature is skipped
-author_blurb: "John Smith is an awesome person. He lives in Flatland, where he works on two-dimensional engineering projects. In his spare time, John likes to eat cotton candy."
+author_blurb: "Ramprasaath is an awesome person. He lives in Blacksburg, where he works on solving AI. In his spare time, Ram plays Table Tennis, Badminton, and Tennis. He also swims, sparingly."
 author_blurb_image: "/img/author.png"
 
 ##################
@@ -144,12 +152,8 @@ author_blurb_image: "/img/author.png"
 social:
   - title: "facebook"
     url: "https://facebook.com/"
-  - title: "twitter"
-    url: "https://twitter.com/"
   - title: "github"
-    url: "https://github.com/PanosSakkos/personal-jekyll-theme"
-  - title: "bitcoin"
-    url: "https://blockchain.info/address/1LHuKC9Em3KA5yoZaf7nngnNdf9K7s2gSi"
+    url: "https://github.com/ramprasaath21/"
   - title: "rss"
     url: "/feed.xml"
 
