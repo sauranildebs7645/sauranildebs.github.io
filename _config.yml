@@ -108,23 +108,23 @@ syntax-highlight: True
 ############
 
 events:
-  - image: "/img/timeline/vt.jpg"
+  - image: "/img/timeline/VT.png"
     date: "Aug 2015 - Today"
     description: "Ph.D Student at Virginia Tech!"
   
-  - image: "/img/timeline/vt.jpg"
+  - image: "/img/timeline/VT.png"
     date: "May 2014 - Dec 2014"
     description: "Research Intern at Virginia Tech"
 
-  - image: "/img/timeline/oxford.jpg"
+  - image: "/img/timeline/oxford.png"
     date: "May 2014 - Dec 2014"
     description: "Research Scholar at Oxford University"
 
-  - image: "/img/timeline/brown.jpg"
+  - image: "/img/timeline/brown.png"
     date: "May 2013 - Aug 2013"
     description: "Summer Intern at Brown University"
 
-  - image: "/img/timeline/BITS.jpg"
+  - image: "/img/timeline/BITS-Pilani.png"
     date: "Aug 2010 - May 2014"
     description: "Undergraduate at BITS-Pilani" 
   
@@ -176,8 +176,8 @@ social:
 
 pages_list:
   About: 'about'
-  Blog: 'latest-post'
   Timeline: 'timeline'
+  Research: 'research'
   Contact: 'contact'
 
 # Exclusion list from the generated _site
