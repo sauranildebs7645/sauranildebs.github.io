@@ -55,10 +55,9 @@ type-speed: 10
 start-delay: 200
 delete-delay: 5000
 lines: # You can add HTML Tags in the Text
-  - text: "The lower you fall, the higher you'll fly."
-  - text: "Where’s your will to be weird?"
+  - text: "Where’s your will to be what you want?"
 
-me-img: "/img/jetpacktocat.png"
+me-img: "/img/ram.jpeg"
 
 ##############################
 # Color the browser elements #
@@ -109,24 +108,30 @@ syntax-highlight: True
 ############
 
 events:
-  - image: "/img/timeline/spidertocat.png"
+  - image: "/img/timeline/vt.jpg"
     date: "Aug 2015 - Today"
-    description: "PhD at Virginia Tech!"
-  - image: "/img/timeline/baracktocat.jpg"
-    date: "Aug 2010 - May 2014"
-    description: "Undergrad at BITS-Pilani"
-  - image: "/img/timeline/baracktocat.jpg"
+    description: "Ph.D Student at Virginia Tech!"
+  
+  - image: "/img/timeline/vt.jpg"
     date: "May 2014 - Dec 2014"
-    description: "Research Intern at Oxford University"
-  - image: "/img/timeline/baracktocat.jpg"
+    description: "Research Intern at Virginia Tech"
+
+  - image: "/img/timeline/oxford.jpg"
+    date: "May 2014 - Dec 2014"
+    description: "Research Scholar at Oxford University"
+
+  - image: "/img/timeline/brown.jpg"
     date: "May 2013 - Aug 2013"
     description: "Summer Intern at Brown University"
 
-
+  - image: "/img/timeline/BITS.jpg"
+    date: "Aug 2010 - May 2014"
+    description: "Undergraduate at BITS-Pilani" 
+  
 
 # First image of the Timeline
 
-timeline-img: "/img/timeline/default.png"
+timeline-img: "/img/timeline/ram.jpeg"
 
 ###########
 # Contact #
@@ -143,7 +148,7 @@ email: "ram21 at vt dot edu"
 
 # if the author_blurb is not set, then this feature is skipped
 author_blurb: "Ramprasaath is an awesome person. He lives in Blacksburg, where he works on solving AI. In his spare time, Ram plays Table Tennis, Badminton, and Tennis. He also swims, sparingly."
-author_blurb_image: "/img/author.png"
+author_blurb_image: "/img/Ramprasaath-Selvaraju-updated.jpg"
 
 ##################
 # Social Buttons #
