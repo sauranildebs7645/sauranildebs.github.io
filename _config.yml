@@ -55,7 +55,7 @@ type-speed: 10
 start-delay: 200
 delete-delay: 5000
 lines: # You can add HTML Tags in the Text
-  - text: "<font color="#696969"> Where’s your will to be what you want? </font>"
+  - text: " Where’s your will to be what you want? "
 
 me-img: "/img/ram.jpeg"
 
