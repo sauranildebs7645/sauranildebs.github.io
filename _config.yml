@@ -39,7 +39,7 @@ favicon: "/img/favicon.ico"
 # Header layout #
 ################
 
-black-favicon: "/img/ram.jpeg"
+black-favicon: "/img/favicon.ico"
 
 background-img: "../img/human_machine.jpg"
 
