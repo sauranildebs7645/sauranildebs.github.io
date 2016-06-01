@@ -33,13 +33,13 @@ author: "Ramprasaath"
 title: "{ Ramprasaath }"
 description: "Blog and website of Ramprasaath."
 keywords: "ramprasaath, ram, prasaath, computer vision, neural networks, deep learning"
-favicon: "/img/timeline/"
+favicon: "/img/favicon.ico"
 
 ################
 # Header layout #
 ################
 
-black-favicon: "/img/favicon.ico"
+black-favicon: "/img/ram.jpeg"
 
 background-img: "../img/human_machine.jpg"
 
@@ -55,14 +55,14 @@ type-speed: 10
 start-delay: 200
 delete-delay: 5000
 lines: # You can add HTML Tags in the Text
-  - text: "Where’s your will to be what you want?"
+  - text: "<font color="#696969"> Where’s your will to be what you want? </font>"
 
 me-img: "/img/ram.jpeg"
 
 ##############################
 # Color the browser elements #
 ##############################
-color-browser: "#000000"
+color-browser: "#696969"
 apple-status-bar-style: "black"
 
 ################
