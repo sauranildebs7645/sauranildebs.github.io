@@ -33,13 +33,13 @@ author: "Ramprasaath"
 title: "{ Ramprasaath }"
 description: "Blog and website of Ramprasaath."
 keywords: "ramprasaath, ram, prasaath, computer vision, neural networks, deep learning"
-favicon: "/img/favicon.ico"
+favicon: "/img/timeline/"
 
 ################
 # Header layout #
 ################
 
-black-favicon: "/img/black-lab-glass.ico"
+black-favicon: "/img/favicon.ico"
 
 background-img: "../img/human_machine.jpg"
 
@@ -110,28 +110,28 @@ syntax-highlight: True
 events:
   - image: "/img/timeline/VT.png"
     date: "Aug 2015 - Today"
-    description: "Ph.D Student at Virginia Tech!"
+    description: "Ph.D Student advised by Devi Parikh"
   
   - image: "/img/timeline/VT.png"
-    date: "May 2014 - Dec 2014"
-    description: "Research Intern at Virginia Tech"
+    date: "Jan 2015 - July 2015"
+    description: "Research Intern working with Devi Parikh"
 
   - image: "/img/timeline/oxford.png"
     date: "May 2014 - Dec 2014"
-    description: "Research Scholar at Oxford University"
+    description: "Research Scholar working with Philip Torr"
 
   - image: "/img/timeline/brown.png"
     date: "May 2013 - Aug 2013"
-    description: "Summer Intern at Brown University"
+    description: "Summer Intern working with Benjamin Kimia"
 
   - image: "/img/timeline/BITS-Pilani.png"
     date: "Aug 2010 - May 2014"
-    description: "Undergraduate at BITS-Pilani" 
+    description: "Bachelors in Electrical and Electronics Engineering and Master of Science in Physics" 
   
 
 # First image of the Timeline
 
-timeline-img: "/img/timeline/ram.jpeg"
+timeline-img: "/img/ram.jpeg"
 
 ###########
 # Contact #
