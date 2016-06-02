@@ -55,7 +55,9 @@ type-speed: 10
 start-delay: 200
 delete-delay: 5000
 lines: # You can add HTML Tags in the Text
-  - text: "  Where’s your will to be what you want? "
+  - text: "To put it in simple words,"
+  - text: "You don't know what your machine learned, and"
+  - text: "your machine sure didn't learn what you learned"
 
 
 me-img: "/img/ram.jpeg"
