@@ -39,7 +39,7 @@ favicon: "/img/favicon.ico"
 # Header layout #
 ################
 
-black-favicon: "/img/favicon-ram.png"
+black-favicon: "/img/favicon-me.png"
 
 background-img: "../img/human_machine.jpg"
 
@@ -48,16 +48,19 @@ background-img: "../img/human_machine.jpg"
 ##############################
 
 dynamic-typing: True
-shuffle: True # Shuffle the lines.
+shuffle: False # Shuffle the lines.
 loop: True
 loop-count: False # Set False for infinite loop, or set any number for finite loop.
 type-speed: 10
 start-delay: 100
 delete-delay: 5000
 lines: # You can add HTML Tags in the Text
-  - text: "and your machine didn't learn what you learned"
-  - text: "You don't know what your machine learned,"
   
+ 
+  - text: "You don't know everything your machine learned,"
+  - text: "and your machine didn't learn everything you know"
+
+    # its AI when your machine learned everything you know and you know everything your machine learned
 
 
 me-img: "/img/ram.jpeg"
