@@ -29,8 +29,8 @@ force-https: True
 #############
 
 lang: "en"
-author: "Ramprasaath"
-title: "{ Ramprasaath }"
+author: "Ram"
+title: "Ramprasaath"
 description: "Blog and website of Ramprasaath."
 keywords: "ramprasaath, ram, prasaath, computer vision, neural networks, deep learning"
 favicon: "/img/favicon.ico"
@@ -125,7 +125,7 @@ events:
     date: "May 2013 - Aug 2013"
     description: "Summer Intern working with Benjamin Kimia"
 
-  - image: "/img/timeline/BITS-Pilani.png"
+  - image: "/img/timeline/BITS.png"
     date: "Aug 2010 - May 2014"
     description: "Bachelors in Electrical and Electronics Engineering and Master of Science in Physics" 
   
