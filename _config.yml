@@ -52,11 +52,11 @@ shuffle: True # Shuffle the lines.
 loop: True
 loop-count: False # Set False for infinite loop, or set any number for finite loop.
 type-speed: 10
-start-delay: 200
+start-delay: 100
 delete-delay: 5000
 lines: # You can add HTML Tags in the Text
-  - text: "your machine sure didn't learn what you learned"
-  - text: "You don't know what your machine learned, and"
+  - text: "and your machine sure didn't learn what you learned"
+  - text: "You don't know what your machine learned,"
   
 
 
@@ -65,7 +65,7 @@ me-img: "/img/ram.jpeg"
 ##############################
 # Color the browser elements #
 ##############################
-color-browser: "#696969"
+color-browser: "#121212"
 apple-status-bar-style: "black"
 
 ################
