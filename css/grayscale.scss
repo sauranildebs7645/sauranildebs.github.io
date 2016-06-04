@@ -111,7 +111,7 @@ a {
         }
     }
     .nav {
-        text-align: center;
+        text-align: left;
         li {
             a {
                 -webkit-transition: background .3s ease-in-out;
@@ -160,10 +160,10 @@ a {
     width: 100%;
     height: auto;
     padding: 100px 0;
-    text-align: center;
+    text-align: left;
     color: $intro-text-color;
     {% if site.background-img %}
-    background: url({{ site.background-img }}) no-repeat bottom center scroll;
+    background: url({{ site.background-img }}) no-repeat bottom left scroll;
     {% endif %}
     background-color: $header-background-color;
     -webkit-background-size: cover;
@@ -249,7 +249,7 @@ a {
     /* Added in { Personal } */
     ul,
     ol {
-        text-align: center;
+        text-align: left;
         margin: 0 0 25px;
         font-size: 18px;
         line-height: 1.5;
@@ -327,7 +327,7 @@ ul.social-buttons li a {
 
 footer {
     padding: 50px 0;
-    text-align: center;
+    text-align: left;
     p {
         margin: 0;
     }
