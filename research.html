@@ -5,39 +5,122 @@ title: Research
 ---
 ## My Research
 
-My research interests lie at the intersection of Computer Vision and Machine Learning, with a focus on building algorithms that can:
+<p style="text-align:left;"> My research interests lie at the intersection of Computer Vision and Machine Learning, with a focus on building algorithms that can:</p>
 
-<ul>
+<ul style="text-align:left;">
     <li> explain why they believe what they believe </li>
     <li> truly understand and grasp information from different modalities (vision, language, common sense reasoning) and create other plausible scenarios </li>
 </ul>
 
 ### Projects
 
-#### Making Deep Models Interpretable Without Making Interpretable Deep Models
+<table width="100%" align="center" border="0" cellspacing="0" cellpadding="20">
+	<tbody>
 
-<p> Deep CNNs have enabled significant breakthroughs for vision, but at the same time they raise important questions about interpretability. To make these models more interpretable we start by (1) proposing a novel class localization method called Gradient-weighted Class Activation Maps (Grad-CAM) which uses gradients to perform localization. (2) Then we combine Grad-CAM with visualizations like Guided Backpropagation to create a novel visualization method called Guided Grad-CAM. The resulting visualizations provide intuitive explanations for CNN predictions by showing both what salient features a CNN looks at as well as where it looks. (3) Further, we empirically demonstrate that our visualization technique is highly class-discriminative through human studies. (4) Finally, we show the broad applicability of this visualization technique not just for image classification, but also visual question answering and image captioning, showing how to interpret typically uninterpretable deep models. </p>
-<p> Arxiv link and Code coming out soon </p>
+	<tr>
+		<td valign="top" width="30%">
+			 <img src="Grad-CAM_teaser.jpg" width="250" height="auto">
+		</td>
+		<td valign="top" width="70%">
+			<b>Grad-CAM: Gradient-weighted Class Activation Mapping</b>
+			<br> 
+			Ramprasaath,
+			<a href="http://abhishekdas.com/about/">Abhishek Das</a>, 
+			<a href="http://ramakrishnavedantam928.github.io/">Ramakrishna Vedantam</a>, 
+			<a href="mcogswell.io">Michael Cogswell</a>,  
+			<a href="https://computing.ece.vt.edu/~parikh/">Devi Parikh</a>
+			<a href="https://computing.ece.vt.edu/~dbatra/">Dhruv Batra</a>, 
+			<br>
+			arXiv paper: Coming very soon
+			<br>
+			<br>
+			[<a href="https://github.com/ramprs/grad-cam/">Code</a>]
+			<br>
+		</td>
+	</tr>
+	
+	<tr>
+		<td valign="top" width="30%">
+			 <img src="dbs-teaser.jpg" width="250" height="auto">
+		</td>
+		<td valign="top" width="70%">
+			<b>Diverse Beam Search: Diverse Decoding from Neural Sequence Models</b>
+			<br> 
+			<a href="http://abhishekdas.com/about/">Ashwin Kalyan</a>, 
+			<a href="mcogswell.io">Michael Cogswell</a>, 
+			Ramprasaath,
+			<a href="https://computing.ece.vt.edu/~parikh/">Qing Sun</a>,
+			<a href="https://computing.ece.vt.edu/~parikh/">Stefen Lee</a>,
+			<a href="https://computing.ece.vt.edu/~parikh/">David Crandal</a>,
+			<a href="https://computing.ece.vt.edu/~dbatra/">Dhruv Batra</a>, 
+			<br>
+				ArXiv paper: Coming very soon
+			<br>
+			<br>
+				Code: Coming very soon
+			<br>
+		</td>
+	</tr>
+	<tr>
+		<td valign="top" width="30%">
+			 <img src="counting_teaser.jpg" width="250" height="auto">
+		</td>
+		<td valign="top" width="70%">
+			<b>Counting Everyday Objects in Everyday Scenes</b>
+			<br> 
+			<a href="http://abhishekdas.com/about/">Prithviraj Chattopadhyay</a>, 
+			<a href="http://ramakrishnavedantam928.github.io/">Ramakrishna Vedantam</a>,
+			Ramprasaath,
+			<a href="https://computing.ece.vt.edu/~dbatra/">Dhruv Batra</a>, 
+			<a href="https://computing.ece.vt.edu/~parikh/">Devi Parikh</a>
+			<br>
+			[<a href= "https://arxiv.org/abs/1604.03505"> ArXiv paper</a>] 
+			<br>
+			<br>
+				Code: Coming very soon
+			<br>
+		</td>
+	</tr>
 
-#### Counting Everyday Objects in Everyday Scenes 
+	<tr>
+		<td valign="top" width="30%">
+			 <img src="paintbrush_teaser.jpg" width="250" height="auto">
+		</td>
+		<td valign="top" width="70%">
+			<b>The Semantic Paintbrush: Interactive 3D Mapping and Recognition in Large Outdoor Spaces</b>
+			<br> 
+			<a href="http://www.miksik.co.uk/">Ondrej Miksik</a>,
+			<a href="http://stanford.edu/~vibhavv/index.html">Vibhav Vineet</a>,
+			<a href="http://morten.lidegaard.net/">Morten Lidegaard</a>,
+			Ramprasaath,
+			<a href="http://graphics.stanford.edu/~niessner/publications.html">Matthias Nießner</a>,
+			<a href="http://www.cs.ox.ac.uk/people/stuart.golodetz/">Stuart Golodetz</a>,
+			<a href="http://www.ndcn.ox.ac.uk/departments/DCN/team/research-scientists/stephen-hicks">Stephen L. Hicks</a>,
+			<a href="http://www.technicolor.com/en/patrick-perez">Patrick Pérez</a>,
+			<a href="http://research.microsoft.com/en-us/people/shahrami/">Shahram Izadi</a>,
+			<a href="http://www.robots.ox.ac.uk/~tvg/people.php">Philip H. S. Torr</a>
+			[<a href= "http://www.graphics.stanford.edu/~niessner/papers/2015/2paintbrush/miksik2015chi.pdf"> Paper</a>] 
+			<br>
+		</td>
+	</tr>
 
-<p> We introduce the problem of counting everyday objects in everyday scenes. While previous works have studied specific counting problems such as pedestrian counting in surveillance videos, or biological cell counting, we are interested in counting common objects in natural scenes. We study this problem in a setup similar to  traditional scene understanding problems. Given an image, we consider the task of predicting the counts (or the numerosity) of categories of interest. We study some
-simple approaches and applications for this counting problem. Our detect approach adapts an object detector to perform counting, while our glance approach regresses to ground truth counts. Our associative subitizing (aso-sub) approach divides an image into regions and regresses to fractional object counts in each region. We create an ensemble (ens) of these counting methods which improves performance. We demonstrate counting performance on the PASCAL and MS COCO datasets. We show proof-of-concept applications of our  automatic counting methods to 1) improve object detection performance, and 2) visual question answering (on VQA and COCO-QA). </p>
-<p> Arxiv: </p>
-<p> Code: </p>
 
-#### Diverse Beam Search: Diverse Decoding from Neural Sequence Models 
+	<tr>
+		<td valign="top" width="30%">
+			 <img src="blindfind-teaser.jpg" width="250" height="auto">
+		</td>
+		<td valign="top" width="70%">
+			<b>BlindFind: Wearable Computer-Vision Rig for the Visually Impaired</b>
+			<br> 
+			<a href="https://vivo.brown.edu/display/bkimia">Eduardo Schmidt</a>,
+			<a href="https://vivo.brown.edu/display/bkimia">Ramprasaath RS</a>,
+			<a href="https://vivo.brown.edu/display/bkimia">Joshua</a>,
+			<a href="https://vivo.brown.edu/display/bkimia">Brandon</a>,
+			<a href="https://vivo.brown.edu/display/bkimia">Krishna</a>,
+			<a href="https://vivo.brown.edu/display/bkimia">Brian</a>,
+			<a href="https://vivo.brown.edu/display/bkimia">Fırat Kalaycılar</a>,
+			<a href="https://vivo.brown.edu/display/bkimia">Benjamin Kimia</a>
+		</td>
+	</tr>
 
-<p> The use of neural sequence models has become standard practice for modeling time-series data in a wide variety of fields. Equally ubiquitous is the use of beam search as an approximate inference algorithm to produce high probability outputs from these models. Beam Search explores the search-space in a best-first fashion, retaining only a small set of highly likely candidate solutions; however, these candidates are often minor perturbations of each other. Producing lists of nearly identical sequences is computationally wasteful and fails to capture multi-modal beliefs. In this work, we present Diverse Beam Search, a broadly-applicable beam search replacement that produces a list of diverse beams and addresses these short-comings. Our results show that diverse beam search not only produces outputs that are significantly more varied but also tends to find better solutions overall as diversity encourages greater exploration of the search space. We present results using both standard quantitative metrics and qualitative human studies. </p>
-
-#### The Semantic Paintbrush: Interactive 3D Mapping and Recognition in Large Outdoor Spaces
-
-<p> We present an augmented reality system for large scale 3D reconstruction and recognition in outdoor scenes. Unlike existing prior work, which tries to reconstruct scenes using active depth cameras, we use a purely passive stereo setup, allowing for outdoor use and extended sensing range. Our system not only produces a map of the 3D environment in real-time, it also allows the user to draw (or ‘paint’) with a laser pointer directly onto the reconstruction to segment the model into objects. Given these examples our system then learns to segment other parts of the 3D map during online acquisition. Unlike typical object recognition systems, ours therefore very much places the user ‘in the loop’ to segment particular objects of interest, rather than learning from predefined databases. The laser pointer additionally helps to ‘clean up’ the stereo reconstruction and final 3D map, interactively. Using our system, within minutes, a user can capture a full 3D map, segment it into objects of interest, and refine parts of the model during capture. We provide full technical details of our system to aid replication, as well as quantitative evaluation of system components. We demonstrate the possibility of using our system for helping the visually impaired navigate through spaces. Beyond this use, our system can be used for playing large-scale augmented reality games, shared online to augment streetview data, and used for more detailed car and person navigation. </p>
-
-#### Blind-Find: Wearable Computer-Vision Rig for the Visually Impaired
-
-<p> For visually impaired individuals the navigation of unfamiliar environments can be both time consuming and hazardous, often requiring the help of a sighted friend. The recent advances in Global Positioning Systems has allowed for novel methods of outdoor navigation, both among the visually impaired and sighted populations. However, in GPS denied environments, such as indoor locations,
-there is currently a lack of navigational aid. This research addresses this problem through the construction of a wearable computer system which utilizes both inertial and visual odometry systems, as well as comprehensive image matching and feedback to guide visually impaired users through a variety of indoor environments. </p>
-
-
-
+</tbody></table>
