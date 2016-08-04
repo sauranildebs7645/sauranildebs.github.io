@@ -186,6 +186,7 @@ pages_list:
   Research: 'research'
   Resume: 'resume'
   Contact: 'contact'
+
 # Exclusion list from the generated _site
 
 exclude: ["LICENSE", "README.md", "CONTRIBUTING", "CONTRIBUTORS", "scripts"]
