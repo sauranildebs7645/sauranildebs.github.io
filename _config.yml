@@ -184,7 +184,7 @@ pages_list:
   About: 'about'
   Career: 'timeline'
   Research: 'research'
-  Resume: 'resume'
+  Resume:  'resume'
   Contact: 'contact'
 
 # Exclusion list from the generated _site
