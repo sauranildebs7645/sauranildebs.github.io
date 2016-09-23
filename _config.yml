@@ -53,12 +53,16 @@ loop: True
 loop-count: False # Set False for infinite loop, or set any number for finite loop.
 type-speed: 10
 start-delay: 100
-delete-delay: 5000
+delete-delay: 3000
 lines: # You can add HTML Tags in the Text
   
  
-  - text: "You don't know everything your machine learned,"
-  - text: "and your machine didn't learn everything you know"
+#- text: "You don't know everything your machine learned,"
+#- text: "and your machine didn't learn everything you know"
+
+- text: "Machines and Humans both lie"
+- text: "We call one an error, and the other a lie."
+- text: "kinda unfair!"
 
     # its AI when your machine learned everything you know and you know everything your machine learned
 
@@ -164,7 +168,7 @@ social:
   - title: "facebook"
     url: "https://facebook.com/"
   - title: "github"
-    url: "https://github.com/ramprasaath21/"
+    url: "https://github.com/ramprs/"
   - title: "rss"
     url: "/feed.xml"
 
