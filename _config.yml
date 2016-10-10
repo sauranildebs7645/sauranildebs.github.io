@@ -47,14 +47,14 @@ background-img: "../img/human_machine.jpg"
 # Dynamic Text on the Header #
 ##############################
 
-dynamic-typing: True
-shuffle: False # Shuffle the lines.
-loop: True
-loop-count: False # Set False for infinite loop, or set any number for finite loop.
-type-speed: 10
-start-delay: 100
-delete-delay: 3000
-lines: # You can add HTML Tags in the Text
+#dynamic-typing: True
+#shuffle: False # Shuffle the lines.
+#loop: True
+#loop-count: False # Set False for infinite loop, or set any number for finite loop.
+#type-speed: 10
+#start-delay: 100
+#delete-delay: 3000
+#lines: # You can add HTML Tags in the Text
   
  
 #- text: "You don't know everything your machine learned,"
