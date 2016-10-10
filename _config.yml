@@ -60,9 +60,9 @@ lines: # You can add HTML Tags in the Text
 #- text: "You don't know everything your machine learned,"
 #- text: "and your machine didn't learn everything you know"
 
-- text: "Machines and Humans both lie"
-- text: "We call one an error, and the other a lie."
-- text: "kinda unfair!"
+#- text: "Machines and Humans both lie"
+#- text: "We call one an error, and the other a lie."
+#- text: "kinda unfair!"
 
     # its AI when your machine learned everything you know and you know everything your machine learned
 
@@ -186,8 +186,8 @@ social:
 
 pages_list:
   About: 'about'
-  Career: 'timeline'
-  Research: 'research'
+  Timeline: 'timeline'
+  Publications: 'research'
   Resume:  'resume'
   Contact: 'contact'
 
