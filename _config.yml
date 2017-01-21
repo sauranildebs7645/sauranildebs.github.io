@@ -188,9 +188,9 @@ pages_list:
   About: 'about'
   Timeline: 'timeline'
   Publications: 'research'
+  #Blog: 'latest-post'
   Resume:  'resume'
   Contact: 'contact'
-  Blog: 'blog'
 # Exclusion list from the generated _site
 
 exclude: ["LICENSE", "README.md", "CONTRIBUTING", "CONTRIBUTORS", "scripts"]
