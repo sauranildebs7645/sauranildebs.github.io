@@ -3,6 +3,7 @@ layout: post
 comments: true
 title:  "Grad-CAM"
 date:   2011-04-27 22:00:00
+mathjax: true
 ---
 
 Grad-CAM: Making Off-the-shelf Deep Models Transparent through Visual Explanations
