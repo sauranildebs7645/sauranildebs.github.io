@@ -154,7 +154,7 @@ This visualization is both high-resolution (when the class of interest is ‘tig
 ## Demo
 Time to test it out:
 
-A live demo on Grad-CAM applied to image classification can be found at [gradcam.cloudcv.org/classification](gradcam.cloudcv.org/classification). 
+A live demo on Grad-CAM applied to image classification can be found at [http://gradcam.cloudcv.org/classification](http://gradcam.cloudcv.org/classification). 
 
 Here is a quick video showing some of its functionalities.
 <center>
@@ -183,7 +183,7 @@ Let's look at more examples with Guided Grad-CAM visualizations too,
 <center>
 <iframe width="756" height="455" src="https://www.youtube.com/embed/COjUB9Izk6E?start=90&end=153&" frameborder="0" allowfullscreen></iframe>
 </center>
-Check its limits at [gradcam.cloudcv.org/captioning](gradcam.cloudcv.org/captioning).
+Check its limits at [http://gradcam.cloudcv.org/captioning](http://gradcam.cloudcv.org/captioning).
 
 ## Visual Question Answering
 
@@ -208,7 +208,7 @@ Notice in the first row of the above figure, for the question, “Is the person 
 
 ### Time to try our Grad-CAM VQA Demo
 
-A live demo of Grad-CAM applied to a simple VQA model is hosted at  [gradcam.cloudcv.org/vqa](gradcam.cloudcv.org/vqa). Play with it and let us know what you think.
+A live demo of Grad-CAM applied to a simple VQA model is hosted at  [http://gradcam.cloudcv.org/vqa](http://gradcam.cloudcv.org/vqa). Play with it and let us know what you think.
 
 Here is an example:
 <center>
