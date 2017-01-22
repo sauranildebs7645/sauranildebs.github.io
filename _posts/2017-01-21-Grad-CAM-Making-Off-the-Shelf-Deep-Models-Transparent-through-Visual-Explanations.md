@@ -1,3 +1,5 @@
+<head><script
+src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script></head>
 ---
 layout: post
 comments: false
@@ -10,7 +12,7 @@ mathjax: true
 
 * TOC
 {:toc}
-
+Updated
 <div id="toc"></div>
 
 <script type="text/javascript">
