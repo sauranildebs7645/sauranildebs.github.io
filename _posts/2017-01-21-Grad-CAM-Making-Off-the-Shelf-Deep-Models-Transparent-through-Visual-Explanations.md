@@ -34,7 +34,8 @@ In order to build trust in intellegent systems and move towards their meaningful
 
 ## Conventional approaches to Interpretability
 
-For simplicity let's call the deep neural network function $ f $.
+For simplicity let's call the deep neural network function $$f$$
+$$\alpha$$.
 ![alt text](http://i.giphy.com/yZxqmcIBSyCrK.gif"function approximation")
 
 Passing an input $ x $  (say an image) to this function would output a probability distribution over a set of labels/categories, $ y $. Typically, this function is highly non-linear, due to the existence of non-linear activations (for eg. ReLU) interspersed in between compounded linear functions.
