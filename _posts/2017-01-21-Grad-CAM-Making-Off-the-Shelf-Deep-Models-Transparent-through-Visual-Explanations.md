@@ -250,6 +250,10 @@ Tensorflow implementation by Ankush, can be found at [github.com/Ankush96/grad-c
 
 ## Acknowledgements
 
-I would like to thank my advisors Devi Parikh and Dhruv Batra without whom this work wouldn't have been possible. I would also like to thank my fellow teammates, Abhishek Das, Michael Cogswell, Ramakrishna Vedantam, Stefan Lee, and Harsh Agrawal for their insights and expertise that greatly assisted the research.
-
+I would like to thank my advisors Devi Parikh and Dhruv Batra without
+whom this work wouldn't have been possible. I would also like to thank
+my fellow teammates, Abhishek Das, Michael Cogswell, Ramakrishna
+Vedantam, Stefan Lee, and Harsh Agrawal for their insights and
+expertise that greatly assisted the research. Finally, I would like to thank
+Deshraj for making the amazing Demo.
 ----------
