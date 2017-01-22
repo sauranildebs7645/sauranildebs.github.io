@@ -8,10 +8,8 @@ date:   2017-01-21 22:00:00
 mathjax: true
 ---
 
-<head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://rawgit.com/ramprs/ramprs.github.io/js/toc.js"></script>
-</head>
+* TOC
+{:toc}
 
 <div id="toc"></div>
 
@@ -29,9 +27,7 @@ Convolutional Neural Networks (CNNs) and other deep networks have enabled unprec
 
 A bit of history. Sometime in the 1980s, the [Pentagon wanted to harness computer technology to identify military tanks](https://neil.fraser.name/writing/tank/). They had a team which went and collected about 100 photographs of tanks hiding behind trees, and 100 photographs of trees with no tanks. A group of researchers trained a Neural Network to distinguish between scenes with and without tanks. Their Neural Net achieved 100% accuracy on their held out test set. When these spectacular results were presented at a conference, a person from the audience raised a concern about the training data they collected. After further investigation it turned out that all the images with tanks were taken on a cloudy day, and all images without tanks were taken on a sunny day. So, at that time the US Government was a proud owner of a multi-billion dollar computer that could tell you whether it was cloudy or not.
 
-Similarly, with the [first fatality happening with a Tesla autonomous car](www.pbs.org/newshour/rundown/driver-killed-in-self-driving-car-accident-for-first-time/) a few months back, and with [Uber's self driving cars seen running red light](www.wired.com/2016/12/ubers-self-driving-car-ran-red-light-san-francisco/), everyone is looking for clear-cut answers/explanations as to why such mistakes happened and what steps are taken in-order to prevent those from happening again.
-
-These examples remind us that what works on current benchmarks (or test beds) might not work well on real life systems. The day when machines take life decisions for us is not very far ahead.
+Similarly, with the [first fatality happening with a Tesla autonomous car](www.pbs.org/newshour/rundown/driver-killed-in-self-driving-car-accident-for-first-time/) a few months back, and with [Uber's self driving cars seen running red light](www.wired.com/2016/12/ubers-self-driving-car-ran-red-light-san-francisco/), everyone is looking for clear-cut answers/explanations as to why such mistakes happened and what steps are taken in-order to prevent those from happening again. These examples remind us that what works on current benchmarks (or test beds) might not work well on real life systems. The day when machines take life decisions for us is not very far ahead.
 
 > If we humans cannot look at predictions made by AI systems, and tell if they are catastrophic failures or brilliant decisions, we will not have any control when these get shipped out into products that impact human lives.
 
