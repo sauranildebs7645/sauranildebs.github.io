@@ -188,7 +188,7 @@ pages_list:
   About: 'about'
   Timeline: 'timeline'
   Publications: 'research'
-  #Blog: 'latest-post'
+  Blog: 'latest-post'
   Resume:  'resume'
   Contact: 'contact'
 # Exclusion list from the generated _site
