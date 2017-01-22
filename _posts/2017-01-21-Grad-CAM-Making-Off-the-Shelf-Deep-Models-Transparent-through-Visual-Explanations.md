@@ -1,8 +1,3 @@
-<head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="https://rawgit.com/ramprs/ramprs.github.io/js/toc.js"></script>
-</head>
-
 ---
 layout: post
 comments: false
@@ -13,9 +8,6 @@ date:   2017-01-21 22:00:00
 mathjax: true
 ---
 
-* TOC
-{:toc}
-Updated
 <div id="toc"></div>
 
 <script type="text/javascript">
