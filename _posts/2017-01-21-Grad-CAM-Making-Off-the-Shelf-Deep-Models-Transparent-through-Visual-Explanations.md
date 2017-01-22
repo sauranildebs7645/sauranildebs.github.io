@@ -1,20 +1,19 @@
----
+--
 layout: post
 comments: true
-title:  "Grad-CAM"
-date:   2011-04-27 22:00:00
+title:  "Grad-CAM: Making Off-the-shelf Deep Models Transparent through Visual Explanations"
+date:   2017-01-21
 mathjax: true
 ---
 
-Grad-CAM: Making Off-the-shelf Deep Models Transparent through Visual Explanations
 ===================
 [TOC]
 
-##Introduction
+# Introduction
 
 Convolutional Neural Networks and other deep networks have enabled unprecedented breakthroughs in a variety of Computer Vision tasks, ranging from Image Classification (classify the image into a category from a given set of categories), to semantic segmentation (segment the detected category), image captioning (describe the given image in natural language), and more recently, visual question answering (answer a natural language question about an image). Despite their success, when these systems fail, they fail spectacularly disgracefully, without any warning or explanation, leaving an end user staring at an incoherent output, wondering why it said what it said. Their lack of decomposability into intuitive and understandable components makes them extremelly hard to interpret.
 
-##Need for Transparent Interpretable Systems
+# Need for Transparent Interpretable Systems
 
 A bit of history. Sometime in the 1980s, the Pentagon wanted to harness computer technology to identify military tanks. They had a team which went and collected about 100 photographs of tanks hiding behind trees, and 100 photographs of trees with no tanks. A group of researchers trained a Neural Network to distinguish between scenes with tanks and scenes without tanks. Their Neural Net achieved 100% accuracy on their held out test set. When these spectacular results were presented at a conference, a person from the audience raised a concern about the training data they collected. After further investigation it turned out that all the images with tanks were taken on a cloudy day, and all images without tanks were taken on a sunny day. So, at that time the US Government was a proud owner of a multi-billion dollar computer that could tell you whether it was cloudy or not.
 
@@ -31,15 +30,15 @@ In order to build trust in intellegent systems and move towards their meaningful
 
 ---------
 
-##Conventional approaches to Interpretability
+# Conventional approaches to Interpretability
 
-For simplicity let's call the deep neural network function $f$.
+For simplicity let's call the deep neural network function $ f $.
 ![alt text](http://i.giphy.com/yZxqmcIBSyCrK.gif"function approximation")
 
-Passing an input $x$ (say an image) to this function would output a probability distribution over a set of labels/categories, $y$. Typically, this function is highly non-linear, due to the existence of non-linear activations (for eg. ReLU) interspersed in between compounded linear functions.
+Passing an input $ x $  (say an image) to this function would output a probability distribution over a set of labels/categories, $ y $. Typically, this function is highly non-linear, due to the existence of non-linear activations (for eg. ReLU) interspersed in between compounded linear functions.
 
-###Backpropagation
-Using the First-order Taylor-series approximation, we can approximate this non-linear function $f$ as a linear function,
+## Backpropagation
+Using the First-order Taylor-series approximation, we can approximate this non-linear function $ f $ as a linear function,
 
 $$f(x) = f(x_0) + (x-x_0) f'(x - x_0)$$
 
@@ -50,7 +49,7 @@ For example let us take an image of a cat, as shown below. Visualizing the gradi
 ![alt text](http://i.imgur.com/xs2sCC5.png"Input cat")
 
 As we can see, this is pretty noisy. 
-###Deconv and Guided Backprop
+## Deconv and Guided Backprop
 Works such as [Deconvolution](https://arxiv.org/abs/1311.2901), and [Guided-backpropagation](https://arxiv.org/abs/1412.6806) modify the backward pass of ReLU which is well explained in this figure below:
 
 ![alt text](http://i.imgur.com/bHLF8it.jpg"ReLU")
@@ -76,7 +75,7 @@ This is bad.  The visualization is unable to distinguish between pixels of cat a
 
 So, approximating the whole network as a linear function didn't give us anything great. What if we visualize the final fully-connected layer (i.e. visualize the gradient of the loss wrt to the penultimate fully-connected layer activations)? Problem: It is not possible to visualize a scalar. We need a tensor to visualize. We will look at how Bolei Zhou's Class Activation Mapping uses this tensor product to interpret Image Classification CNNs.
 
-###Class Activation Mapping
+## Class Activation Mapping
 
 It is known that as the depth of a CNN increases, higher-level visual constructs are captured. Furthermore, convolutional layers naturally retain spatial information which is lost in fully-connected layers, so we can expect the last convolutional layers to have the best compromise between high-level semantics and detailed spatial information. The neurons in these layers look for semantic class-specific information (say object parts) in the image. Knowing the importance of each neuron activation (feature maps) for a particular class of interest, can help us better understand where the whole deep model is looking at. For example, to understand why a neural network would predict "person" for given image, we would ideally expect the neural network to recognize that the feature maps that looks for the hands, faces, legs, etc. are more important than other feature maps. 
 
@@ -99,14 +98,13 @@ The underlying un-modified network has definitely learned to distinguish between
 
 Let us see how Grad-CAM uncovers these importance weights without any training.
 
-##**Grad-CAM**- Gradient-weighted Class Activation Mapping
+# **Grad-CAM**- Gradient-weighted Class Activation Mapping
 
 ![Overview](http://i.imgur.com/JaGbdZ5.png)
 
 In order to obtain the class-discriminative localization map, Grad-CAM computes the gradient of $y^c$ (score for class c) with respect to feature maps $A$ of a convolutional layer, i.e. $\frac{\partial y^c}{\partial A^k_{ij}}$. These gradients flowing back are global-average-pooled to obtain the importance weights $\alpha{}_{k}^c$:
 
-\begin{equation} 
-    \alpha{}_{k}^c =
+    $$\alpha{}_{k}^c =
     \overbrace{
         \frac{1}{Z}\sum_{i}\sum_{j}
     }^{\text{global average pooling}}
@@ -114,7 +112,7 @@ In order to obtain the class-discriminative localization map, Grad-CAM computes 
     \underbrace{
         \vphantom{\sum_{i}\sum_{j}} \frac{\partial y^c}{\partial A_{ij}^{k}}
     }_{\text{gradients via backprop}}
-\end{equation}
+$$
 >In most deep learning frameworks, this can be computed using just a single backward call till the convolutional layer.
 
 This weight $\alpha{}_{k}^c$ represents a partial linearization of the deep network downstream from $A$,  and captures the '*importance*' of feature map $k$ for a target class $c$. In general, $y^c$ need not be the class score produced by an image classification CNN, and could be any differentiable activation. 
@@ -122,9 +120,7 @@ This weight $\alpha{}_{k}^c$ represents a partial linearization of the deep netw
 
 Similar to CAM, Grad-CAM heat-map is a weighted combination of feature maps, but followed by a ReLU:
 
-\begin{equation} 
-    L_{\text{Grad-CAM}}^{c} = ReLU \underbrace{\left(\sum_k \alpha{}_{k}^{c} A^{k}\right)}_{\text{linear combination}} 
-\end{equation}
+    $$L_{\text{Grad-CAM}}^{c} = ReLU \underbrace{\left(\sum_k \alpha{}_{k}^{c} A^{k}\right)}_{\text{linear combination}} $$
 
 >Notice that this results in a coarse heat-map of the same size as the convolutional feature maps ($14 \times 14$ in the case of last convolutional layers of VGG and AlexNet networks). 
 
@@ -133,7 +129,7 @@ If the architecture is already CAM compatible – the weights learned in CAM are
 ![alt text](http://i.imgur.com/4CKwYOR.jpg"gradcam_cat_dog")
 
 
-###**Guided Grad-CAM**
+## **Guided Grad-CAM**
 While Grad-CAM visualizations are class-discriminative and localize relevant image regions well, they lack the ability to show fine-grained importance like pixel-space gradient visualization methods (Guided Backpropagation and Deconvolution). For example take the case of the left image in the above figure, Grad-CAM can easily localize the cat region; however, it is unclear from the low-resolutions of the heat-map why the network predicts this particular instance is ‘tiger cat’. In order to combine the best aspects of both, we can fuse Guided Backpropagation and the Grad-CAM visualizations via a pointwise multiplication. GradCAM overview figure above illustrates this fusion. 
 
 This results in visualizations like below,
@@ -141,7 +137,7 @@ This results in visualizations like below,
 
 This visualization is both high-resolution (when the class of interest is ‘tiger cat’, it identifies important ‘tiger cat’ features like stripes, pointy ears and eyes) and class-discriminative (it shows the ‘tiger cat’ but not the ‘boxer (dog)’).
 
-##Demo
+# Demo
 Time to test it out:
 
 A live demo on Grad-CAM applied to image classification can be found at [gradcam.cloudcv.org/classification](gradcam.cloudcv.org/classification). 
@@ -152,11 +148,11 @@ Here is a quick video showing some of its functionalities.
 
 So, go ahead try it out with images of your interest, and let us know your comments/suggestions.
 
-##Going beyond classification
+# Going beyond classification
 
 Grad-CAM being a strict generalization to CAM lets us generate visual explanations from CNN-based models that cascade convolutional layers with more complex interactions. We will apply Grad-CAM to “beyond classification” tasks and models that utilize CNNs, like image captioning and Visual Question Answering (VQA).
 
-##Image-Captioning
+# Image-Captioning
 
 Lets try and visualize a simple Image captioning model (without attention) using Grad-CAM. We are going to build on top of the [publicly available 'neuraltalk2'](github.com/karpathy/neuraltalk2) implementation by Karpathy, that uses a finetuned VGG-16 CNN for images and an LSTM-based language model. Similar to the classification case, we can compute Grad-CAM for any user given caption. Given a caption, we compute the gradient of its log probability w.r.t. units in the last convolutional layer of the CNN (conv5_3 for VGG-16) and generate Grad-CAM visualizations. Lets look at some results below.
 
@@ -172,7 +168,7 @@ Let's look at more examples with Guided Grad-CAM visualizations too,
 <iframe width="756" height="455" src="https://www.youtube.com/embed/COjUB9Izk6E?start=90&end=153&" frameborder="0" allowfullscreen></iframe>
 Check its limits at [gradcam.cloudcv.org/captioning](gradcam.cloudcv.org/captioning).
 
-##Visual Question Answering
+# Visual Question Answering
 
 Lets visualize 2 VQA models - a simple baseline model, and a complicated Res-Net-based hierarchical co-attention model.
 
@@ -204,7 +200,7 @@ Here is an example:
 
 It is interesting to see that **common CNN + LSTM models are pretty good at localizing discriminative input regions despite not being trained on grounded image-text pairs**.
 
-##Negative Explanations with Grad-CAM
+# Negative Explanations with Grad-CAM
 
 Let's look at a new explanation modality - **negative explanations**. 
 
@@ -228,7 +224,7 @@ This is done by negating the gradient of $y^c$ (score for class $c$) with respec
 
 ----------
 
-##Conclusions
+# Conclusions
 
 In this blog post we have seen why it is important to have transparent machines which explain their decision making process. We looked at Gradient-based methods and CAM for interpreting these deep models. We saw that these methods either are not class-discriminative, or high-resolution, or require a modification to the model, which leads to a decrease in accuracy. We discussed a recently proposed alternative, Grad-CAM which solves the above mentioned problems. We saw its application to various Image Classification, Image Captioning and Visual Question Answering models. We believe that a true AI system should not only be intelligent, but also be able to reason about its beliefs and actions for humans to trust it.
 
@@ -245,7 +241,7 @@ Grad-CAM only requires a couple of lines be added to your code. Our Torch implem
 
 ----------
 
-##Acknowledgements
+# Acknowledgements
 
 I would like to thank my advisors Devi Parikh and Dhruv Batra without whom this work wouldn't have been possible. I would also like to thank my fellow teammates, Abhishek Das, Michael Cogswell, Ramakrishna Vedantam, Stefan Lee, and Harsh Agrawal for their insights and expertise that greatly assisted the research.
 
