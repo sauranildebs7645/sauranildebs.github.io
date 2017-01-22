@@ -11,6 +11,14 @@ mathjax: true
 * TOC
 {:toc}
 
+<div id="toc"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#toc').toc();
+});
+</script>
+
 ## Introduction
 
 Convolutional Neural Networks (CNNs) and other deep networks have enabled unprecedented breakthroughs in a variety of Computer Vision tasks, ranging from Image Classification (classify the image into a category from a given set of categories), to semantic segmentation (segment the detected category), image captioning (describe the image in natural language), and more recently, visual question answering (answer a natural language question about an image). Despite their success, when these systems fail, they fail spectacularly disgracefully, without any warning or explanation, leaving us staring at an incoherent output, wondering why it said what it said. Their lack of decomposability into intuitive and understandable components makes them extremelly hard to interpret.
