@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+	<head>
+        <meta charset="utf-8" />
+		<title>Grad-CAM: Making Off-the-Shelf Deep Models Transparent through Visual Explanations</title>
+	</head>
+	<body>
+	<h1 id="grad-cam-making-off-the-shelf-deep-models-transparent-through-visual-explanations">Grad-CAM: Making Off-the-shelf Deep Models Transparent through Visual Explanations</h1>
+
+<p><div class="toc">
+<ul>
+<li><a href="#grad-cam-making-off-the-shelf-deep-models-transparent-through-visual-explanations">Grad-CAM: Making Off-the-shelf Deep Models Transparent through Visual Explanations</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#need-for-transparent-interpretable-systems">Need for Transparent Interpretable Systems</a></li>
+<li><a href="#conventional-approaches-to-interpretability">Conventional approaches to Interpretability</a><ul>
+<li><a href="#backpropagation">Backpropagation</a></li>
+<li><a href="#deconv-and-guided-backprop">Deconv and Guided Backprop</a></li>
+<li><a href="#class-activation-mapping">Class-Activation-Mapping:</a></li>
+</ul>
+</li>
+<li><a href="#grad-cam-gradient-weighted-class-activation-mapping">Grad-CAM- Gradient-weighted Class Activation Mapping</a><ul>
+<li><a href="#guided-grad-cam">Guided Grad-CAM</a></li>
+</ul>
+</li>
+<li><a href="#demo">Demo</a></li>
+<li><a href="#going-beyond-classification">Going beyond classification:</a></li>
+<li><a href="#image-captioning">Image-Captioning:</a><ul>
+<li><a href="#time-to-try-our-grad-cam-captioning-demo">Time to try our Grad-CAM Captioning Demo:</a></li>
+</ul>
+</li>
+<li><a href="#visual-question-answering">Visual Question Answering:</a><ul>
+<li><a href="#time-to-try-our-grad-cam-vqa-demo">Time to try our Grad-CAM VQA Demo:</a></li>
+</ul>
+</li>
+<li><a href="#negative-explanations-with-grad-cam">Negative Explanations with Grad-CAM</a></li>
+<li><a href="#conclusions">Conclusions:</a></li>
+<li><a href="#acknowledgements">Acknowledgements:</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</p>
+
+
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Convolutional Neural Networks and other deep networks have enabled unprecedented breakthroughs in a variety of Computer Vision tasks, ranging from Image Classification (classify the image into a category from a given set of categories), to semantic segmentation (segment the detected category), image captioning (describe the given image in natural language), and more recently, visual question answering (answer a natural language question about an image). Despite their success, when these systems fail, they fail spectacularly disgracefully, without any warning or explanation, leaving an end user staring at an incoherent output, wondering why it said what it said. Their lack of decomposability into intuitive and understandable components makes them extremelly hard to interpret.</p>
+
+<h2 id="need-for-transparent-interpretable-systems">Need for Transparent Interpretable Systems</h2>
+
+<p>Sometime in the 1980s, the Pentagon wanted to harness computer technology to identify military tanks. They had a team which went and collected about 100 photographs of tanks hiding behind trees, and 100 photographs of trees with no tanks. A group of researchers trained a Neural Network to distinguish between scenes with tanks and scenes without tanks. Their Neural Net achieved 100% accuracy on their held out test set. When these spectacular results were presented at a conference, a person from the audience raised a concern about the training data they collected. After further investigation it turned out that all the images with tanks were taken on a cloudy day, and all images without tanks were taken on a sunny day. So, at that time the US Government was a proud owner of a multi-billion dollar computer that could tell you whether it was cloudy or not.</p>
+
+<p>Similarly, with the first fatality happening with a Tesla autonomous car a few months back, and with Uberâ€™s self driving cars seen running red light, everyone is looking for clear-cut answers/explanations as to why such mistakes happened and what steps are taken in-order to prevent those from happening again.</p>
+
+<p>These examples remind us that what works on current benchmarks (or test beds) might not work well on real life systems. The day when machines take life decisions for us is not very far ahead.</p>
+
+<blockquote>
+  <p>If we humans cannot look at predictions made by AI systems, and tell if they are catastrophic failures or brilliant decisions, we will not have any control when these get shipped out into products that impact human lives.</p>
+</blockquote>
+
+<p>According to a <a href="https://arxiv.org/abs/1606.08813">recent paper presented at ICML workshop</a>, a new regulation is coming out in Europe that states that â€œ<em>whenever human subjects have their lives significantly impacted by an automatic decision making machine, the human subject has the right to know why the decision is made- i.e. right to explanation</em>â€. This is supposed to turn into a law as early as 2018. So this isnâ€™t just an academic exercise anymore!</p>
+
+<p>Letâ€™s now look at some scenarios where this sort of transparency and interpretability can help. Take the case where an AI system is significantly weaker than humans, and not reliably deployable in real world applications (eg. visual question answering), the goal of transparency and explanations would be to identify failure modes, which can help researchers to focus their efforts on the most fruitful research directions. Going one level up, take the case of an AI system that is on par with humans and is reliably deployable, (e.g., image classification and self-driving cars to some extent), the goal is to establish trust with end users using this application. Going to the highest level where the AI does significantly better than well trained humans (e.g. chess or Go playing bots), the goal of transparency and explanations can be machine teaching â€“ i.e., a machine teaching a human on how to make accurate decisions. </p>
+
+<p>In order to build trust in intellegent systems and move towards their meaningful integration into our everyday lives, it is clear that we must build â€˜transparentâ€™ models that explain why they predict what they do.</p>
+
+<hr>
+
+<h2 id="conventional-approaches-to-interpretability">Conventional approaches to Interpretability</h2>
+
+<p>For simplicity letâ€™s call the deep neural network function <script type="math/tex" id="MathJax-Element-2305">f</script>. <br>
+<img src="http://i.giphy.com/yZxqmcIBSyCrK.gif" alt="alt text" title="function approximation"></p>
+
+<p>Passing an input <script type="math/tex" id="MathJax-Element-2306">x</script> (say an image) to this function would output a probability distribution over a set of labels/categories, <script type="math/tex" id="MathJax-Element-2307">y</script>. Typically, this function is highly non-linear, due to the existence of non-linear activations (for eg. ReLU) interspersed in between compounded linear functions.</p>
+
+<h3 id="backpropagation">Backpropagation</h3>
+
+<p>Using the First-order Taylor-series approximation, we can approximate this non-linear function <script type="math/tex" id="MathJax-Element-1814">f</script> as a linear function,</p>
+
+<p><script type="math/tex; mode=display" id="MathJax-Element-2343">f(x) = f(x_0) + (x-x_0) f'(x - x_0)</script></p>
+
+<p>This now permits us to use gradients. Gradients by their definition indicate the rate of change of a function (<script type="math/tex" id="MathJax-Element-2344">f</script> in this case), with respect to the variable (<script type="math/tex" id="MathJax-Element-2345">x</script> in this case) surrounding an infinitesimally small region near that particular point. In our case, gradients can tell us how changes in <script type="math/tex" id="MathJax-Element-2346">x</script> affect <script type="math/tex" id="MathJax-Element-2347">y</script>. In the interpretability line you can think of it like, how does changing a pixel in the input image change the networkâ€™s behaviour for that input.</p>
+
+<p>For example let us take an image of a cat, as shown below. Visualizing the gradient of the loss (for category cat) wrt the input pixels gives,</p>
+
+<p><img src="http://i.imgur.com/xs2sCC5.png" alt="alt text" title="Input cat"></p>
+
+<p>As we can see, this is pretty noisy. </p>
+
+<h3 id="deconv-and-guided-backprop">Deconv and Guided Backprop</h3>
+
+<p>Works such as <a href="https://arxiv.org/abs/1311.2901">Deconvolution</a>, and <a href="https://arxiv.org/abs/1412.6806">Guided-backpropagation</a> modify the backward pass of ReLU which is well explained in this figure below:</p>
+
+<p><img src="http://i.imgur.com/bHLF8it.jpg" alt="alt text" title="ReLU"></p>
+
+<p>This results in much cleaner results.</p>
+
+<p><img src="http://i.imgur.com/FXxnSt4.png" alt="alt text" title="Gradients"></p>
+
+<p><strong>Why are simple gradients noisy, and gradients with Guided backprop arenâ€™t?</strong></p>
+
+<p>In Guided-Backprop, during ReLU backward in addition to what is suppressed in simple backprop, we additionally suppress the negative gradients. Negative gradients at a particular ReLU neuron, state that this neuron has a negative influence on the class that we are trying to visualize. <br>
+During backpropagation there are paths that have positive influence and some that have negative influence, and these end up cancelling out in a weird interference pattern, causing gradients to seem noisy. Whereas in Guided Backpropagation, we only keep paths that lead to positive influence on the class score, and supress the ones that have negative influence, leading to much cleaner looking images.</p>
+
+<p>Letâ€™s now take a different image like one below,</p>
+
+<p><img src="http://i.imgur.com/LUDL1V5.jpg" alt="alt text" title="Cat_Dog"></p>
+
+<p>As we can see, there are 2 categories here - dog and cat. Lets visualize regions important for each of these 2 categories using Guided-Backpropagation (GB).</p>
+
+<p><img src="http://i.imgur.com/LWlaTLS.png" alt="alt text" title="Cat_Dog"></p>
+
+<p>This is bad.  The visualization is unable to distinguish between pixels of cat and dog. In other words, the <strong>visualization is not class-discriminative.</strong> </p>
+
+<p>So, approximating the whole network as a linear function didnâ€™t give us anything great. What if we visualize the final fully-connected layer (i.e. visualize the gradient of the loss wrt to the penultimate fully-connected layer activations)? Problem: It is not possible to visualize a scalar. We need a tensor to visualize. We will look at how Bolei Zhouâ€™s Class Activation Mapping uses this tensor product to interpret Image Classification CNNs.</p>
+
+<h3 id="class-activation-mapping">Class Activation Mapping</h3>
+
+<p>It is known that as the depth of a CNN increases, higher-level visual constructs are captured. Furthermore, convolutional layers naturally retain spatial information which is lost in fully-connected layers, so we can expect the last convolutional layers to have the best compromise between high-level semantics and detailed spatial information. The neurons in these layers look for semantic class-specific information (say object parts) in the image. Knowing the importance of each neuron activation (feature maps) for a particular class of interest, can help us better understand where the whole deep model is looking at. For example, to understand why a neural network would predict â€œpersonâ€ for given image, we would ideally expect the neural network to recognize that the feature maps that looks for the hands, faces, legs, etc. are more important than other feature maps. </p>
+
+<p>We know that the activations till the last convolutional layers (feature maps) are tensors. If we had a network in which the convolutional layers were followed directly by a prediction layer without any fully connected layers, we would have exactly what we need - a tensor product which can easily be visualized. </p>
+
+<p><a href="http://cnnlocalization.csail.mit.edu/Zhou_Learning_Deep_Features_CVPR_2016_paper.pdf">CAM</a> does exactly this - modify the base network to remove all fully-connected layers at the end, and include a tensor product (followed by softmax), which takes as input the Global-Average-Pooled convolutional feature maps, and outputs the probability for each class. Note that this modification of architecture forces us to retrain the network.</p>
+
+<p><img src="http://i.giphy.com/26xBL7wCaRe6SqFDq.gif" alt="alt text" title="CAM_fig"></p>
+
+<p>The weights learned in the last tensor product layer correspond to the neuron importance weights, i.e. - importance of the feature maps for each class of interest.</p>
+
+<p><img src="http://i.imgur.com/ObMP5b3.jpg" alt="alt text" title="CAM_approach"></p>
+
+<blockquote>
+  <p>We have seen that CAM needs a simplified architecture, and hence has to be trained again. This can sometime lead to a decrease in accuracy.</p>
+</blockquote>
+
+<p>Now I am sure you are thinking, <br>
+<strong>Can we get these visualizations without changing the base model, and without <em>any</em> re-training?</strong></p>
+
+<p>The underlying un-modified network has definitely learned to distinguish between different classes, implying that it recognizes which activation at which layer to give importance in-order to make the particular decision.</p>
+
+<p>Let us see how Grad-CAM uncovers these importance weights without any training.</p>
+
+<h2 id="grad-cam-gradient-weighted-class-activation-mapping"><strong>Grad-CAM</strong>- Gradient-weighted Class Activation Mapping</h2>
+
+<p><img src="http://i.imgur.com/JaGbdZ5.png" alt="Overview" title=""></p>
+
+<p>In order to obtain the class-discriminative localization map, Grad-CAM computes the gradient of <script type="math/tex" id="MathJax-Element-1835">y^c</script> (score for class c) with respect to feature maps <script type="math/tex" id="MathJax-Element-1836">A</script> of a convolutional layer, i.e. <script type="math/tex" id="MathJax-Element-1837">\frac{\partial y^c}{\partial A^k_{ij}}</script>. These gradients flowing back are global-average-pooled to obtain the importance weights <script type="math/tex" id="MathJax-Element-1838">\alpha{}_{k}^c</script>:</p>
+
+<p><script type="math/tex; mode=display" id="MathJax-Element-2273">\begin{equation} 
+    \alpha{}_{k}^c =
+    \overbrace{
+        \frac{1}{Z}\sum_{i}\sum_{j}
+    }^{\text{global average pooling}}
+    \hspace{-17pt}
+    \underbrace{
+        \vphantom{\sum_{i}\sum_{j}} \frac{\partial y^c}{\partial A_{ij}^{k}}
+    }_{\text{gradients via backprop}}
+\end{equation}</script></p>
+
+<blockquote>
+  <p>In most deep learning frameworks, this can be computed using just a single backward call till the convolutional layer.</p>
+</blockquote>
+
+<p>This weight <script type="math/tex" id="MathJax-Element-2274">\alpha{}_{k}^c</script> represents a partial linearization of the deep network downstream from <script type="math/tex" id="MathJax-Element-2275">A</script>,  and captures the â€˜<em>importance</em>â€™ of feature map <script type="math/tex" id="MathJax-Element-2276">k</script> for a target class <script type="math/tex" id="MathJax-Element-2277">c</script>. In general, <script type="math/tex" id="MathJax-Element-2278">y^c</script> need not be the class score produced by an image classification CNN, and could be any differentiable activation. </p>
+
+<blockquote>
+  <p>To be concrete even though we introduced Grad-CAM using the notion â€˜classâ€™ from image classification (e.g., cat or dog), <strong>visual explanations can be considered for any differentiable node in a computational graph, including words from a caption or the answer to a question, etc.</strong>.</p>
+</blockquote>
+
+<p>Similar to CAM, Grad-CAM heat-map is a weighted combination of feature maps, but followed by a ReLU:</p>
+
+<p><script type="math/tex; mode=display" id="MathJax-Element-2271">\begin{equation} 
+    L_{\text{Grad-CAM}}^{c} = ReLU \underbrace{\left(\sum_k \alpha{}_{k}^{c} A^{k}\right)}_{\text{linear combination}} 
+\end{equation}</script></p>
+
+<blockquote>
+  <p>Notice that this results in a coarse heat-map of the same size as the convolutional feature maps (<script type="math/tex" id="MathJax-Element-2272">14 \times 14</script> in the case of last convolutional layers of VGG and AlexNet networks). </p>
+</blockquote>
+
+<p>If the architecture is already CAM compatible â€“ the weights learned in CAM are precisely the weights computed in Grad-CAM. Other than the ReLU, this makes <strong>Grad-CAM a generalization of CAM</strong>. This generalization is what allows Grad-CAM to be applicable to <strong><em>any CNN-based architecture</em></strong>. </p>
+
+<p><img src="http://i.imgur.com/4CKwYOR.jpg" alt="alt text" title="gradcam_cat_dog"></p>
+
+<h3 id="guided-grad-cam"><strong>Guided Grad-CAM</strong></h3>
+
+<p>While Grad-CAM visualizations are class-discriminative and localize relevant image regions well, they lack the ability to show fine-grained importance like pixel-space gradient visualization methods (Guided Backpropagation and Deconvolution). For example take the case of the left image in the above figure, Grad-CAM can easily localize the cat region; however, it is unclear from the low-resolutions of the heat-map why the network predicts this particular instance is â€˜tiger catâ€™. In order to combine the best aspects of both, we can fuse Guided Backpropagation and the Grad-CAM visualizations via a pointwise multiplication. GradCAM overview figure above illustrates this fusion. </p>
+
+<p>This results in visualizations like below, <br>
+<img src="http://i.imgur.com/BbTL40i.jpg" alt="alt text" title="guidedgradcam_cat_dog"></p>
+
+<p>This visualization is both high-resolution (when the class of interest is â€˜tiger catâ€™, it identifies important â€˜tiger catâ€™ features like stripes, pointy ears and eyes) and class-discriminative (it shows the â€˜tiger catâ€™ but not the â€˜boxer (dog)â€™).</p>
+
+<h2 id="demo">Demo</h2>
+
+<p>Time to test it out:</p>
+
+<p>A live demo on Grad-CAM applied to image classification can be found at <a href="gradcam.cloudcv.org/classification">gradcam.cloudcv.org/classification</a>. </p>
+
+<p>Here is a quick video showing some of its functionalities.</p>
+
+<iframe width="756" height="455" src="https://www.youtube.com/embed/COjUB9Izk6E?start=160&amp;end=198&amp;" allowfullscreen=""></iframe>
+
+<p>So, go ahead try it out with images of your interest, and let us know your comments/suggestions.</p>
+
+<h2 id="going-beyond-classification">Going beyond classification</h2>
+
+<p>Grad-CAM being a strict generalization to CAM lets us generate visual explanations from CNN-based models that cascade convolutional layers with more complex interactions. We will apply Grad-CAM to â€œbeyond classificationâ€ tasks and models that utilize CNNs, like image captioning and Visual Question Answering (VQA).</p>
+
+<h2 id="image-captioning">Image-Captioning</h2>
+
+<p>Lets try and visualize a simple Image captioning model (without attention) using Grad-CAM. We are going to build on top of the <a href="github.com/karpathy/neuraltalk2">publicly available â€˜neuraltalk2â€™</a> implementation by Karpathy, that uses a finetuned VGG-16 CNN for images and an LSTM-based language model. Similar to the classification case, we can compute Grad-CAM for any user given caption. Given a caption, we compute the gradient of its log probability w.r.t. units in the last convolutional layer of the CNN (conv5_3 for VGG-16) and generate Grad-CAM visualizations. Lets look at some results below.</p>
+
+<p><img src="http://i.imgur.com/hGOJv2r.jpg" alt="alt text" title="captioning"> <br>
+For first example, the Grad-CAM maps for the generated caption localizes every occurrence of both the kites and people inspite of their relatively small size. In the next example, see how Grad-CAM correctly highlights the pizza and the man, but ignores the woman nearby, since â€˜womanâ€™ is not mentioned in the caption.</p>
+
+<p>Letâ€™s look at more examples with Guided Grad-CAM visualizations too, <br>
+<img src="http://i.imgur.com/nzsDorc.png" alt="alt text" title="captioning_more"></p>
+
+<h3 id="time-to-try-our-grad-cam-captioning-demo">Time to try our Grad-CAM Captioning Demo</h3>
+
+<iframe width="756" height="455" src="https://www.youtube.com/embed/COjUB9Izk6E?start=90&amp;end=153&amp;" allowfullscreen=""></iframe>
+
+<p>Check its limits at <a href="gradcam.cloudcv.org/captioning">gradcam.cloudcv.org/captioning</a>.</p>
+
+<h2 id="visual-question-answering">Visual Question Answering</h2>
+
+<p>Lets visualize 2 VQA models - a simple baseline model, and a complicated Res-Net-based hierarchical co-attention model.</p>
+
+<p><strong>Visualizing a simple VQA model without attention:</strong> <br>
+We visualize a publicly available standard <a href="github.com/VT-vision-lab/VQA_LSTM_CNN">VQA implementation by Jiasen Lu</a>. It consists of a CNN to model images and a RNN (Recurrent Neural Network) language model for questions. The image and the question representations are fused to predict the answer with a 1000-way classification. Since this is a classification problem, lets pick an answer (the score <script type="math/tex" id="MathJax-Element-2304">y_c</script>) and use its score to compute Grad-CAM to show image evidence that supports the answer.</p>
+
+<p>Below are some example visualizations for the VQA model trained with 3 different CNNs - AlexNet, VGG-16 and VGG-19. Even though the CNNs were not finetuned for the task of VQA, it is interesting to see how Grad-CAM helps understand these networks better by providing a localized high-resolution visualization of the regions the model is looking at. </p>
+
+<p><img src="http://i.imgur.com/FczOO7b.jpg" alt="alt text" title="vqa"></p>
+
+<p>Notice in the first row of the above figure, for the question, â€œIs the person riding the waves?â€, the VQA model with AlexNet and VGG-16 answered â€œNoâ€, as they concentrated on the person mainly, and not the waves. On the other hand, VGG-19 correctly answered â€œYesâ€, and it looked at the regions around the man in order to answer the question. In the second image, for the question, â€œWhat is the person hitting?â€, the VQA model trained with AlexNet answered â€œTennis ballâ€ just based on context without looking at the ball. Such a model might be risky when employed in real-life scenarios. It is difficult to determine the trustworthiness of a model just based on the predicted answer. Grad-CAM visualizations provide an accurate way to explain the modelâ€™s predictions and help in determining which model to trust, without making any architectural changes or sacrificing accuracy. Notice in the last row of the above figure, for the question, â€œIs this a whole orange?â€, the model looks for regions around the orange to answer â€œNoâ€.</p>
+
+<p><strong>Visualizing Res-Net-based VQA model with attention:</strong></p>
+
+<p><a href="https://arxiv.org/abs/1606.00061">Lu et al. 2016</a> uses a 200 layer <a href="https://arxiv.org/abs/1512.03385">ResNet</a> to encode the image, and jointly learn a hierarchical attention mechanism based on parses of question and image.</p>
+
+<p><img src="http://i.imgur.com/UNx369c.jpg" alt="alt text" title="vqa_res"></p>
+
+<blockquote>
+  <p>Note that these networks were trained with no explicit attention mechanism enforced.</p>
+</blockquote>
+
+<h3 id="time-to-try-our-grad-cam-vqa-demo">Time to try our Grad-CAM VQA Demo</h3>
+
+<p>A live demo of Grad-CAM applied to a simple VQA model is hosted at  <a href="gradcam.cloudcv.org/vqa">gradcam.cloudcv.org/vqa</a>. Play with it and let us know what you think.</p>
+
+<p>Here is an example:</p>
+
+<iframe width="756" height="455" src="https://www.youtube.com/embed/COjUB9Izk6E?start=17&amp;end=86&amp;" allowfullscreen=""></iframe>
+
+<p>It is interesting to see that <strong>common CNN + LSTM models are pretty good at localizing discriminative input regions despite not being trained on grounded image-text pairs</strong>.</p>
+
+<h2 id="negative-explanations-with-grad-cam">Negative Explanations with Grad-CAM</h2>
+
+<p>Letâ€™s look at a new explanation modality - <strong>negative explanations</strong>. </p>
+
+<p>Using a slight modification to Grad-CAM we can obtain negative explanations, which highlight the support of the regions that would make the network predict a different class. These can be used to instill trust in an end user, in the sense that the underlying model does understand the class of interest, and it doesnâ€™t get confused because of other distracting classes.</p>
+
+<p>This is done by negating the gradient of <script type="math/tex" id="MathJax-Element-1870">y^c</script> (score for class <script type="math/tex" id="MathJax-Element-1871">c</script>) with respect to feature maps <script type="math/tex" id="MathJax-Element-1872">A</script> of a convolutional layer. Thus the importance weights <script type="math/tex" id="MathJax-Element-1873">\alpha{}_{k}^{c}</script> now become, </p>
+
+<p><script type="math/tex; mode=display" id="MathJax-Element-1793">\begin{equation} 
+    \alpha{}_{k}^c =
+    \overbrace{
+        \frac{1}{Z}\sum_{i}\sum_{j}
+    }^{\text{global average pooling}}
+    \hspace{-17pt}
+    \underbrace{
+        \vphantom{\sum_{i}\sum_{j}} -\frac{\partial y^c}{\partial A_{ij}^{k}}
+    }_{\text{Negative gradients}}
+\end{equation}</script></p>
+
+<p><img src="http://i.imgur.com/2XgD1GM.png" alt="alt text" title="neg_exp"></p>
+
+<hr>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>In this blog post we have seen why it is important to have transparent machines which explain their decision making process. We looked at Gradient-based methods and CAM for interpreting these deep models. We saw that these methods either are not class-discriminative, or high-resolution, or require a modification to the model, which leads to a decrease in accuracy. We discussed a recently proposed alternative, Grad-CAM which solves the above mentioned problems. We saw its application to various Image Classification, Image Captioning and Visual Question Answering models. We believe that a true AI system should not only be intelligent, but also be able to reason about its beliefs and actions for humans to trust it.</p>
+
+<p>This blog post is based on our paper, â€œ<strong>Grad-CAM: Why did you say that? Visual Explanations from Deep Networks via Gradient-based Localization</strong>â€œ. It can be found in Arxiv via <a href="https://arxiv.org/abs/1610.02391">https://arxiv.org/abs/1610.02391</a>. The paper has more experiments, including qualitative and quantitative comparisons to existing approaches. It also includes human-evaluations which show that Guided Grad-CAM explanations help users establish trust in the predictions made by deep networks. Another interesting aspect we find is that Guided Grad-CAM helps untrained users successfully discern a â€˜strongerâ€™ deep network from a â€˜weakerâ€™ one even when both networks make identical predictions, simply on the basis of their different explanations.</p>
+
+<p><strong>Code:</strong> <br>
+Grad-CAM only requires a couple of lines be added to your code. Our Torch implementation for Grad-CAM can be found at <a href="github.com/ramprs/grad-cam/">github.com/ramprs/grad-cam/</a>. Tensorflow implementation by Ankush, can be found at <a href="https://github.com/Ankush96/grad-cam.tensorflow">github.com/Ankush96/grad-cam.tensorflow</a>, and a Keras implementation by Jacobgil can be found at <a href="https://github.com/jacobgil/keras-grad-cam">github.com/jacobgil/keras-grad-cam</a>. Jacob also has a nice <a href="https://jacobgil.github.io/deeplearning/vehicle-steering-angle-visualizations">blogpost on vehicle steering angle visualization using Grad-CAM</a>.</p>
+
+<p><img src="http://i.imgur.com/W5qyE4A.png" alt="alt text" title="CAM_results"></p>
+
+<p><strong>Webpage:</strong> Here is a webpage where we will post grad-cam related updates.</p>
+
+<hr>
+
+<h2 id="acknowledgements">Acknowledgements</h2>
+
+<p>I would like to thank my advisors Devi Parikh and Dhruv Batra without whom this work wouldnâ€™t have been possible. I would also like to thank my fellow teammates, Abhishek Das, Michael Cogswell, Ramakrishna Vedantam, Stefan Lee, and Harsh Agrawal for their insights and expertise that greatly assisted the research.</p>
+
+<hr>	
+	</body>
+</html>
