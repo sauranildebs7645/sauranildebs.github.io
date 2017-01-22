@@ -6,8 +6,6 @@ date:   2017-01-21 22:00:00
 mathjax: true
 ---
 
-===================
-
 [TOC]
 
 ## Introduction
@@ -36,7 +34,7 @@ In order to build trust in intellegent systems and move towards their meaningful
 
 For simplicity let's call the deep neural network function $$f$$
 .
-<center><img src="http://i.giphy.com/yZxqmcIBSyCrK.gif" style="width: 400px;" ></center>
+<center><img src="http://i.giphy.com/yZxqmcIBSyCrK.gif" style="width: 800px;" ></center>
 
 Passing an input $ x $  (say an image) to this function would output a probability distribution over a set of labels/categories, $ y $. Typically, this function is highly non-linear, due to the existence of non-linear activations (for eg. ReLU) interspersed in between compounded linear functions.
 
@@ -56,7 +54,7 @@ As we can see, this is pretty noisy.
 ### Deconv and Guided Backprop
 Works such as [Deconvolution](https://arxiv.org/abs/1311.2901), and [Guided-backpropagation](https://arxiv.org/abs/1412.6806) modify the backward pass of ReLU which is well explained in this figure below:
 
-<center><img src="http://i.imgur.com/bHLF8it.jpg" style="width: 400px;" ></center>
+<center><img src="http://i.imgur.com/bHLF8it.jpg" style="width: 800px;" ></center>
 
 This results in much cleaner results.
 
@@ -69,7 +67,7 @@ During backpropagation there are paths that have positive influence and some tha
 
 Let's now take a different image like one below,
 
-<center><img src="http://i.imgur.com/LUDL1V5.jpg" style="width: 400px;" ></center>
+<center><img src="http://i.imgur.com/LUDL1V5.jpg" style="width: 200px;" ></center>
 
 As we can see, there are 2 categories here - dog and cat. Lets visualize regions important for each of these 2 categories using Guided-Backpropagation (GB).
 
@@ -87,11 +85,11 @@ We know that the activations till the last convolutional layers (feature maps) a
 
 [CAM](http://cnnlocalization.csail.mit.edu/Zhou_Learning_Deep_Features_CVPR_2016_paper.pdf) does exactly this - modify the base network to remove all fully-connected layers at the end, and include a tensor product (followed by softmax), which takes as input the Global-Average-Pooled convolutional feature maps, and outputs the probability for each class. Note that this modification of architecture forces us to retrain the network.
 
-<center><img src="http://i.giphy.com/26xBL7wCaRe6SqFDq.gif" style="width: 400px;" ></center>
+<center><img src="http://i.giphy.com/26xBL7wCaRe6SqFDq.gif" style="width: 800px;" ></center>
 
 The weights learned in the last tensor product layer correspond to the neuron importance weights, i.e. - importance of the feature maps for each class of interest.
 
-<center><img src="http://i.imgur.com/ObMP5b3.jpg" style="width: 400px;" ></center>
+<center><img src="http://i.imgur.com/ObMP5b3.jpg" style="width: 800px;" ></center>
 
 
 > We have seen that CAM needs a simplified architecture, and hence has to be trained again. This can sometime lead to a decrease in accuracy.
@@ -105,11 +103,13 @@ Let us see how Grad-CAM uncovers these importance weights without any training.
 
 ## **Grad-CAM**- Gradient-weighted Class Activation Mapping
 
-<center><img src="http://i.imgur.com/JaGbdZ5.png" style="width: 400px;" ></center>
+<center><img src="http://i.imgur.com/JaGbdZ5.png" style="width: 800px;" ></center>
 
 In order to obtain the class-discriminative localization map, Grad-CAM computes the gradient of $y^c$ (score for class c) with respect to feature maps $A$ of a convolutional layer, i.e. $\frac{\partial y^c}{\partial A^k_{ij}}$. These gradients flowing back are global-average-pooled to obtain the importance weights $\alpha{}_{k}^c$:
 
-    $$ \alpha{}_{k}^c = \overbrace{\frac{1}{Z}\sum_{i}\sum_{j}}^{\text{global average pooling}}\underbrace{\vphantom{\sum_{i}\sum_{j}} \frac{\partial y^c}{\partial A_{ij}^{k}}}_{\text{gradients via backprop}} $$
+$$ \alpha{}_{k}^c = \frac{1}{Z} $$ 
+
+$$ \alpha{}_{k}^c = \overbrace{\frac{1}{Z}\sum_{i}\sum_{j}}^{\text{global average pooling}}\underbrace{\vphantom{\sum_{i}\sum_{j}} \frac{\partial y^c}{\partial A_{ij}^{k}}}_{\text{gradients via backprop}} $$
 
 > In most deep learning frameworks, this can be computed using just a single backward call till the convolutional layer.
 
@@ -124,7 +124,7 @@ Similar to CAM, Grad-CAM heat-map is a weighted combination of feature maps, but
 
 If the architecture is already CAM compatible – the weights learned in CAM are precisely the weights computed in Grad-CAM. Other than the ReLU, this makes **Grad-CAM a generalization of CAM**. This generalization is what allows Grad-CAM to be applicable to ***any CNN-based architecture***. 
 
-<center><img src="http://i.imgur.com/4CKwYOR.jpg" style="width: 400px;" ></center>
+<center><img src="http://i.imgur.com/4CKwYOR.jpg" style="width: 800px;" ></center>
 
 
 ### **Guided Grad-CAM**
@@ -132,7 +132,7 @@ While Grad-CAM visualizations are class-discriminative and localize relevant ima
 
 This results in visualizations like below,
 
-<center><img src="http://i.imgur.com/BbTL40i.jpg" style="width: 400px;" ></center>
+<center><img src="http://i.imgur.com/BbTL40i.jpg" style="width: 800px;" ></center>
 
 This visualization is both high-resolution (when the class of interest is ‘tiger cat’, it identifies important ‘tiger cat’ features like stripes, pointy ears and eyes) and class-discriminative (it shows the ‘tiger cat’ but not the ‘boxer (dog)’).
 
@@ -155,13 +155,13 @@ Grad-CAM being a strict generalization to CAM lets us generate visual explanatio
 
 Lets try and visualize a simple Image captioning model (without attention) using Grad-CAM. We are going to build on top of the [publicly available 'neuraltalk2'](github.com/karpathy/neuraltalk2) implementation by Karpathy, that uses a finetuned VGG-16 CNN for images and an LSTM-based language model. Similar to the classification case, we can compute Grad-CAM for any user given caption. Given a caption, we compute the gradient of its log probability w.r.t. units in the last convolutional layer of the CNN (conv5_3 for VGG-16) and generate Grad-CAM visualizations. Lets look at some results below.
 
-<center><img src="http://i.imgur.com/hGOJv2r.jpg" style="width: 400px;" ></center>
+<center><img src="http://i.imgur.com/hGOJv2r.jpg" style="width: 800px;" ></center>
 
 For first example, the Grad-CAM maps for the generated caption localizes every occurrence of both the kites and people inspite of their relatively small size. In the next example, see how Grad-CAM correctly highlights the pizza and the man, but ignores the woman nearby, since ‘woman’ is not mentioned in the caption.
 
 Let's look at more examples with Guided Grad-CAM visualizations too,
 
-<center><img src="http://i.imgur.com/nzsDorc.png" style="width: 400px;" ></center>
+<center><img src="http://i.imgur.com/nzsDorc.png" style="width: 800px;" ></center>
 
 
 ### Time to try our Grad-CAM Captioning Demo
@@ -178,7 +178,7 @@ We visualize a publicly available standard [VQA implementation by Jiasen Lu](git
 
 Below are some example visualizations for the VQA model trained with 3 different CNNs - AlexNet, VGG-16 and VGG-19. Even though the CNNs were not finetuned for the task of VQA, it is interesting to see how Grad-CAM helps understand these networks better by providing a localized high-resolution visualization of the regions the model is looking at. 
 
-<center><img src="http://i.imgur.com/FczOO7b.jpg" style="width: 400px;" ></center>
+<center><img src="http://i.imgur.com/FczOO7b.jpg" style="width: 1000px;" ></center>
 
 Notice in the first row of the above figure, for the question, “Is the person riding the waves?”, the VQA model with AlexNet and VGG-16 answered “No”, as they concentrated on the person mainly, and not the waves. On the other hand, VGG-19 correctly answered “Yes”, and it looked at the regions around the man in order to answer the question. In the second image, for the question, “What is the person hitting?”, the VQA model trained with AlexNet answered “Tennis ball” just based on context without looking at the ball. Such a model might be risky when employed in real-life scenarios. It is difficult to determine the trustworthiness of a model just based on the predicted answer. Grad-CAM visualizations provide an accurate way to explain the model’s predictions and help in determining which model to trust, without making any architectural changes or sacrificing accuracy. Notice in the last row of the above figure, for the question, “Is this a whole orange?”, the model looks for regions around the orange to answer “No”.
 
@@ -186,7 +186,7 @@ Notice in the first row of the above figure, for the question, “Is the person 
 
 [Lu et al. 2016](https://arxiv.org/abs/1606.00061) uses a 200 layer [ResNet](https://arxiv.org/abs/1512.03385) to encode the image, and jointly learn a hierarchical attention mechanism based on parses of question and image.
 
-<center><img src="http://i.imgur.com/UNx369c.jpg" style="width: 400px;" ></center>
+<center><img src="http://i.imgur.com/UNx369c.jpg" style="width: 800px;" ></center>
 
 > Note that these networks were trained with no explicit attention mechanism enforced.
 
@@ -222,7 +222,7 @@ This is done by negating the gradient of $y^c$ (score for class $c$) with respec
 
 ![alt text](http://i.imgur.com/2XgD1GM.png"neg_exp")
 
-<center><img src="http://i.imgur.com/2XgD1GM.png" style="width: 400px;" ></center>
+<center><img src="http://i.imgur.com/2XgD1GM.png" style="width: 800px;" ></center>
 
 ----------
 
@@ -236,7 +236,7 @@ This blog post is based on our paper, "**Grad-CAM: Why did you say that? Visual 
 Grad-CAM only requires a couple of lines be added to your code. Our Torch implementation for Grad-CAM can be found at [github.com/ramprs/grad-cam/](github.com/ramprs/grad-cam/). Tensorflow implementation by Ankush, can be found at [github.com/Ankush96/grad-cam.tensorflow](https://github.com/Ankush96/grad-cam.tensorflow), and a Keras implementation by Jacobgil can be found at [github.com/jacobgil/keras-grad-cam](https://github.com/jacobgil/keras-grad-cam). Jacob also has a nice [blogpost on vehicle steering angle visualization using Grad-CAM](https://jacobgil.github.io/deeplearning/vehicle-steering-angle-visualizations).
 
 
-<center><img src="http://i.imgur.com/W5qyE4A.png" style="width: 400px;" ></center>
+<center><img src="http://i.imgur.com/W5qyE4A.png" style="width: 800px;" ></center>
 
 
 **Webpage:** Here is a webpage where we will post grad-cam related updates.
