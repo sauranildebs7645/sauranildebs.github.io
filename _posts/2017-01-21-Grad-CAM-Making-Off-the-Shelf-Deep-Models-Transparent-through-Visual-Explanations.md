@@ -37,14 +37,14 @@ For simplicity let's call the deep neural network function $$f$$
 .
 <center><img src="http://i.giphy.com/yZxqmcIBSyCrK.gif" style="width: 800px;" ></center>
 
-Passing an input $ x $  (say an image) to this function would output a probability distribution over a set of labels/categories, $ y $. Typically, this function is highly non-linear, due to the existence of non-linear activations (for eg. ReLU) interspersed in between compounded linear functions.
+Passing an input $$ x $$  (say an image) to this function would output a probability distribution over a set of labels/categories, $$ y $$. Typically, this function is highly non-linear, due to the existence of non-linear activations (for eg. ReLU) interspersed in between compounded linear functions.
 
 ### Backpropagation
-Using the First-order Taylor-series approximation, we can approximate this non-linear function $ f $ as a linear function,
+Using the First-order Taylor-series approximation, we can approximate this non-linear function $$ f $$ as a linear function,
 
 $$ f(x) = f(x_0) + (x-x_0) f'(x - x_0)$$
 
-This now permits us to use gradients. Gradients by their definition indicate the rate of change of a function ($f$ in this case), with respect to the variable ($x$ in this case) surrounding an infinitesimally small region near that particular point. In our case, gradients can tell us how changes in $x$ affect $y$. In the interpretability line you can think of it like, how does changing a pixel in the input image change the network's behaviour for that input.
+This now permits us to use gradients. Gradients by their definition indicate the rate of change of a function ($$ f $$ in this case), with respect to the variable ($$ x $$ in this case) surrounding an infinitesimally small region near that particular point. In our case, gradients can tell us how changes in $$ x $$ affect $$ y $$. In the interpretability line you can think of it like, how does changing a pixel in the input image change the network's behaviour for that input.
 
 For example let us take an image of a cat, as shown below. Visualizing the gradient of the loss (for category cat) wrt the input pixels gives,
 http://i.imgur.com/xs2sCC5.png
@@ -54,7 +54,7 @@ As we can see, this is pretty noisy.
 ### Deconv and Guided Backprop
 Works such as [Deconvolution](https://arxiv.org/abs/1311.2901), and [Guided-backpropagation](https://arxiv.org/abs/1412.6806) modify the backward pass of ReLU which is well explained in this figure below:
 
-<center><img src="http://i.imgur.com/bHLF8it.jpg" style="width: 800px;" ></center>
+<center><img src="http://i.imgur.com/bHLF8it.jpg" style="width: 600px;" ></center>
 
 This results in much cleaner results.
 
@@ -105,7 +105,7 @@ Let us see how Grad-CAM uncovers these importance weights without any training.
 
 <center><img src="http://i.imgur.com/JaGbdZ5.png" style="width: 800px;" ></center>
 
-In order to obtain the class-discriminative localization map, Grad-CAM computes the gradient of $y^c$ (score for class c) with respect to feature maps $A$ of a convolutional layer, i.e. $\frac{\partial y^c}{\partial A^k_{ij}}$. These gradients flowing back are global-average-pooled to obtain the importance weights $\alpha{}_{k}^c$:
+In order to obtain the class-discriminative localization map, Grad-CAM computes the gradient of $$ y^c $$ (score for class c) with respect to feature maps $$ A $$ of a convolutional layer, i.e. $$ \frac{\partial y^c}{\partial A^k_{ij}}$$. These gradients flowing back are global-average-pooled to obtain the importance weights $$ \alpha{}_{k}^c $$:
 
 $$ \alpha{}_{k}^c = \frac{1}{Z} $$ 
 
@@ -113,7 +113,7 @@ $$ \alpha{}_{k}^c = \overbrace{\frac{1}{Z}\sum_{i}\sum_{j}}^{\text{global averag
 
 > In most deep learning frameworks, this can be computed using just a single backward call till the convolutional layer.
 
-This weight $\alpha{}_{k}^c$ represents a partial linearization of the deep network downstream from $A$,  and captures the '*importance*' of feature map $k$ for a target class $c$. In general, $y^c$ need not be the class score produced by an image classification CNN, and could be any differentiable activation. 
+This weight $$ \alpha{}_{k}^c $$ represents a partial linearization of the deep network downstream from $$ A $$,  and captures the '*importance*' of feature map $$ k $$ for a target class $$ c $$. In general, $$ y^c $$ need not be the class score produced by an image classification CNN, and could be any differentiable activation. 
 > To be concrete even though we introduced Grad-CAM using the notion ‘class’ from image classification (e.g., cat or dog), **visual explanations can be considered for any differentiable node in a computational graph, including words from a caption or the answer to a question, etc.**.
 
 Similar to CAM, Grad-CAM heat-map is a weighted combination of feature maps, but followed by a ReLU:
@@ -142,9 +142,9 @@ Time to test it out:
 A live demo on Grad-CAM applied to image classification can be found at [gradcam.cloudcv.org/classification](gradcam.cloudcv.org/classification). 
 
 Here is a quick video showing some of its functionalities.
-
+<center>
 <iframe width="756" height="455" src="https://www.youtube.com/embed/COjUB9Izk6E?start=160&end=198&" frameborder="0" allowfullscreen></iframe>
-
+</center>
 So, go ahead try it out with images of your interest, and let us know your comments/suggestions.
 
 ## Going beyond classification
@@ -165,8 +165,9 @@ Let's look at more examples with Guided Grad-CAM visualizations too,
 
 
 ### Time to try our Grad-CAM Captioning Demo
-
+<center>
 <iframe width="756" height="455" src="https://www.youtube.com/embed/COjUB9Izk6E?start=90&end=153&" frameborder="0" allowfullscreen></iframe>
+</center>
 Check its limits at [gradcam.cloudcv.org/captioning](gradcam.cloudcv.org/captioning).
 
 ## Visual Question Answering
@@ -174,7 +175,7 @@ Check its limits at [gradcam.cloudcv.org/captioning](gradcam.cloudcv.org/caption
 Lets visualize 2 VQA models - a simple baseline model, and a complicated Res-Net-based hierarchical co-attention model.
 
 **Visualizing a simple VQA model without attention:**
-We visualize a publicly available standard [VQA implementation by Jiasen Lu](github.com/VT-vision-lab/VQA_LSTM_CNN). It consists of a CNN to model images and a RNN (Recurrent Neural Network) language model for questions. The image and the question representations are fused to predict the answer with a 1000-way classification. Since this is a classification problem, lets pick an answer (the score $y_c$) and use its score to compute Grad-CAM to show image evidence that supports the answer.
+We visualize a publicly available standard [VQA implementation by Jiasen Lu](github.com/VT-vision-lab/VQA_LSTM_CNN). It consists of a CNN to model images and a RNN (Recurrent Neural Network) language model for questions. The image and the question representations are fused to predict the answer with a 1000-way classification. Since this is a classification problem, lets pick an answer (the score $$ y_c $$) and use its score to compute Grad-CAM to show image evidence that supports the answer.
 
 Below are some example visualizations for the VQA model trained with 3 different CNNs - AlexNet, VGG-16 and VGG-19. Even though the CNNs were not finetuned for the task of VQA, it is interesting to see how Grad-CAM helps understand these networks better by providing a localized high-resolution visualization of the regions the model is looking at. 
 
@@ -195,9 +196,9 @@ Notice in the first row of the above figure, for the question, “Is the person 
 A live demo of Grad-CAM applied to a simple VQA model is hosted at  [gradcam.cloudcv.org/vqa](gradcam.cloudcv.org/vqa). Play with it and let us know what you think.
 
 Here is an example:
-
+<center>
 <iframe width="756" height="455" src="https://www.youtube.com/embed/COjUB9Izk6E?start=17&end=86&" frameborder="0" allowfullscreen></iframe>
-
+</center>
 
 It is interesting to see that **common CNN + LSTM models are pretty good at localizing discriminative input regions despite not being trained on grounded image-text pairs**.
 
@@ -207,9 +208,9 @@ Let's look at a new explanation modality - **negative explanations**.
 
 Using a slight modification to Grad-CAM we can obtain negative explanations, which highlight the support of the regions that would make the network predict a different class. These can be used to instill trust in an end user, in the sense that the underlying model does understand the class of interest, and it doesn't get confused because of other distracting classes.
 
-This is done by negating the gradient of $y^c$ (score for class $c$) with respect to feature maps $A$ of a convolutional layer. Thus the importance weights $\alpha{}_{k}^{c}$ now become, 
+This is done by negating the gradient of $$ y^c $$ (score for class $$ c $$) with respect to feature maps $$ A $$ of a convolutional layer. Thus the importance weights $$ \alpha{}_{k}^{c} $$ now become, 
 
-$$\alpha{}_{k}^c = \overbrace{\frac{1}{Z}\sum_{i}\sum_{j}}^{\text{global average pooling}}\underbrace{ \vphantom{\sum_{i}\sum_{j}} -\frac{\partial
+$$ \alpha{}_{k}^c = \overbrace{\frac{1}{Z}\sum_{i}\sum_{j}}^{\text{global average pooling}}\underbrace{ \vphantom{\sum_{i}\sum_{j}} -\frac{\partial
 y^c}{\partial A_{ij}^{k}} }_{\text{Negative gradients}} $$
 
 <center><img src="http://i.imgur.com/2XgD1GM.png" style="width: 600px;" ></center>
