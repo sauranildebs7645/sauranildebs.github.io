@@ -6,7 +6,8 @@ date:   2017-01-21 22:00:00
 mathjax: true
 ---
 
-[TOC]
+* TOC
+{:toc}
 
 ## Introduction
 
@@ -48,7 +49,6 @@ This now permits us to use gradients. Gradients by their definition indicate the
 For example let us take an image of a cat, as shown below. Visualizing the gradient of the loss (for category cat) wrt the input pixels gives,
 http://i.imgur.com/xs2sCC5.png
 <center><img src="http://i.imgur.com/xs2sCC5.png" style="width: 400px;" ></center>
-![alt text](http://i.imgur.com/xs2sCC5.png"Input cat")
 
 As we can see, this is pretty noisy. 
 ### Deconv and Guided Backprop
@@ -71,7 +71,7 @@ Let's now take a different image like one below,
 
 As we can see, there are 2 categories here - dog and cat. Lets visualize regions important for each of these 2 categories using Guided-Backpropagation (GB).
 
-<center><img src="http://i.imgur.com/LWlaTLS.png" style="width: 400px;" ></center>
+<center><img src="http://i.imgur.com/LWlaTLS.png" style="width: 600px;" ></center>
 
 This is bad.  The visualization is unable to distinguish between pixels of cat and dog. In other words, the **visualization is not class-discriminative.** 
 
@@ -85,11 +85,11 @@ We know that the activations till the last convolutional layers (feature maps) a
 
 [CAM](http://cnnlocalization.csail.mit.edu/Zhou_Learning_Deep_Features_CVPR_2016_paper.pdf) does exactly this - modify the base network to remove all fully-connected layers at the end, and include a tensor product (followed by softmax), which takes as input the Global-Average-Pooled convolutional feature maps, and outputs the probability for each class. Note that this modification of architecture forces us to retrain the network.
 
-<center><img src="http://i.giphy.com/26xBL7wCaRe6SqFDq.gif" style="width: 800px;" ></center>
+<center><img src="http://i.giphy.com/26xBL7wCaRe6SqFDq.gif" style="width: 600px;" ></center>
 
 The weights learned in the last tensor product layer correspond to the neuron importance weights, i.e. - importance of the feature maps for each class of interest.
 
-<center><img src="http://i.imgur.com/ObMP5b3.jpg" style="width: 800px;" ></center>
+<center><img src="http://i.imgur.com/ObMP5b3.jpg" style="width: 600px;" ></center>
 
 
 > We have seen that CAM needs a simplified architecture, and hence has to be trained again. This can sometime lead to a decrease in accuracy.
@@ -118,13 +118,13 @@ This weight $\alpha{}_{k}^c$ represents a partial linearization of the deep netw
 
 Similar to CAM, Grad-CAM heat-map is a weighted combination of feature maps, but followed by a ReLU:
 
-    $$L_{\text{Grad-CAM}}^{c} = ReLU \underbrace{\left(\sum_k \alpha{}_{k}^{c} A^{k}\right)}_{\text{linear combination}} $$
+$$ L_{\text{Grad-CAM}}^{c} = ReLU \underbrace{\left(\sum_k \alpha{}_{k}^{c} A^{k}\right)}_{\text{linear combination}} $$
 
-> Notice that this results in a coarse heat-map of the same size as the convolutional feature maps ($14 \times 14$ in the case of last convolutional layers of VGG and AlexNet networks). 
+> Notice that this results in a coarse heat-map of the same size as the convolutional feature maps ($$ 14 \times 14 $$ in the case of last convolutional layers of VGG and AlexNet networks). 
 
 If the architecture is already CAM compatible – the weights learned in CAM are precisely the weights computed in Grad-CAM. Other than the ReLU, this makes **Grad-CAM a generalization of CAM**. This generalization is what allows Grad-CAM to be applicable to ***any CNN-based architecture***. 
 
-<center><img src="http://i.imgur.com/4CKwYOR.jpg" style="width: 800px;" ></center>
+<center><img src="http://i.imgur.com/4CKwYOR.jpg" style="width: 600px;" ></center>
 
 
 ### **Guided Grad-CAM**
@@ -132,7 +132,7 @@ While Grad-CAM visualizations are class-discriminative and localize relevant ima
 
 This results in visualizations like below,
 
-<center><img src="http://i.imgur.com/BbTL40i.jpg" style="width: 800px;" ></center>
+<center><img src="http://i.imgur.com/BbTL40i.jpg" style="width: 600px;" ></center>
 
 This visualization is both high-resolution (when the class of interest is ‘tiger cat’, it identifies important ‘tiger cat’ features like stripes, pointy ears and eyes) and class-discriminative (it shows the ‘tiger cat’ but not the ‘boxer (dog)’).
 
@@ -209,20 +209,10 @@ Using a slight modification to Grad-CAM we can obtain negative explanations, whi
 
 This is done by negating the gradient of $y^c$ (score for class $c$) with respect to feature maps $A$ of a convolutional layer. Thus the importance weights $\alpha{}_{k}^{c}$ now become, 
 
-\begin{equation} 
-    \alpha{}_{k}^c =
-    \overbrace{
-        \frac{1}{Z}\sum_{i}\sum_{j}
-    }^{\text{global average pooling}}
-    \hspace{-17pt}
-    \underbrace{
-        \vphantom{\sum_{i}\sum_{j}} -\frac{\partial y^c}{\partial A_{ij}^{k}}
-    }_{\text{Negative gradients}}
-\end{equation}
+$$\alpha{}_{k}^c = \overbrace{\frac{1}{Z}\sum_{i}\sum_{j}}^{\text{global average pooling}}\underbrace{ \vphantom{\sum_{i}\sum_{j}} -\frac{\partial
+y^c}{\partial A_{ij}^{k}} }_{\text{Negative gradients}} $$
 
-![alt text](http://i.imgur.com/2XgD1GM.png"neg_exp")
-
-<center><img src="http://i.imgur.com/2XgD1GM.png" style="width: 800px;" ></center>
+<center><img src="http://i.imgur.com/2XgD1GM.png" style="width: 600px;" ></center>
 
 ----------
 
@@ -233,11 +223,12 @@ In this blog post we have seen why it is important to have transparent machines 
 This blog post is based on our paper, "**Grad-CAM: Why did you say that? Visual Explanations from Deep Networks via Gradient-based Localization**". It can be found in Arxiv via [https://arxiv.org/abs/1610.02391](https://arxiv.org/abs/1610.02391). The paper has more experiments, including qualitative and quantitative comparisons to existing approaches. It also includes human-evaluations which show that Guided Grad-CAM explanations help users establish trust in the predictions made by deep networks. Another interesting aspect we find is that Guided Grad-CAM helps untrained users successfully discern a ‘stronger’ deep network from a ‘weaker’ one even when both networks make identical predictions, simply on the basis of their different explanations.
 
 **Code:**
-Grad-CAM only requires a couple of lines be added to your code. Our Torch implementation for Grad-CAM can be found at [github.com/ramprs/grad-cam/](github.com/ramprs/grad-cam/). Tensorflow implementation by Ankush, can be found at [github.com/Ankush96/grad-cam.tensorflow](https://github.com/Ankush96/grad-cam.tensorflow), and a Keras implementation by Jacobgil can be found at [github.com/jacobgil/keras-grad-cam](https://github.com/jacobgil/keras-grad-cam). Jacob also has a nice [blogpost on vehicle steering angle visualization using Grad-CAM](https://jacobgil.github.io/deeplearning/vehicle-steering-angle-visualizations).
+Grad-CAM only requires a couple of lines be added to your code. Our Torch implementation for Grad-CAM can be found at [github.com/ramprs/grad-cam/](github.com/ramprs/grad-cam/). 
 
 
-<center><img src="http://i.imgur.com/W5qyE4A.png" style="width: 800px;" ></center>
+<center><img src="http://i.imgur.com/W5qyE4A.png" style="width: 900px;" ></center>
 
+Tensorflow implementation by Ankush, can be found at [github.com/Ankush96/grad-cam.tensorflow](https://github.com/Ankush96/grad-cam.tensorflow), and a Keras implementation by Jacobgil can be found at [github.com/jacobgil/keras-grad-cam](https://github.com/jacobgil/keras-grad-cam). Jacob also has a nice [blogpost on vehicle steering angle visualization using Grad-CAM](https://jacobgil.github.io/deeplearning/vehicle-steering-angle-visualizations).
 
 **Webpage:** Here is a webpage where we will post grad-cam related updates.
 
