@@ -1,6 +1,6 @@
 ---
 layout: post
-comments: true
+comments: false
 title:  "Grad-CAM: Making Off-the-shelf Deep Models Transparent through Visual Explanations"
 date:   2017-01-21 22:00:00
 mathjax: true
@@ -42,7 +42,7 @@ Passing an input $ x $  (say an image) to this function would output a probabili
 ### Backpropagation
 Using the First-order Taylor-series approximation, we can approximate this non-linear function $ f $ as a linear function,
 
-$$f(x) = f(x_0) + (x-x_0) f'(x - x_0)$$
+$$ f(x) = f(x_0) + (x-x_0) f'(x - x_0)$$
 
 This now permits us to use gradients. Gradients by their definition indicate the rate of change of a function ($f$ in this case), with respect to the variable ($x$ in this case) surrounding an infinitesimally small region near that particular point. In our case, gradients can tell us how changes in $x$ affect $y$. In the interpretability line you can think of it like, how does changing a pixel in the input image change the network's behaviour for that input.
 
