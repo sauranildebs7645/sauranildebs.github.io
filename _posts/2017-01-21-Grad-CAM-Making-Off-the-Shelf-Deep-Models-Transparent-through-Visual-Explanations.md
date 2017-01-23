@@ -29,7 +29,9 @@ A bit of history. Sometime in the 1980s, the [Pentagon wanted to harness compute
 
 Similarly, with the [first fatality happening with a Tesla autonomous car](www.pbs.org/newshour/rundown/driver-killed-in-self-driving-car-accident-for-first-time/) a few months back, and with [Uber's self driving cars seen running red light](www.wired.com/2016/12/ubers-self-driving-car-ran-red-light-san-francisco/), everyone is looking for clear-cut answers/explanations as to why such mistakes happened and what steps are taken in-order to prevent those from happening again. These examples remind us that what works on current benchmarks (or test beds) might not work well on real life systems. The day when machines take life decisions for us is not very far ahead.
 
-> If we humans cannot look at predictions made by AI systems, and tell if they are catastrophic failures or brilliant decisions, we will not have any control when these get shipped out into products that impact human lives.
+<blockquote>
+<p> If we humans cannot look at predictions made by AI systems, and tell if they are catastrophic failures or brilliant decisions, we will not have any control when these get shipped out into products that impact human lives.”</p>
+</blockquote>
 
 According to a [recent paper presented at ICML'16 workshop](https://arxiv.org/abs/1606.08813), a new regulation is coming out in Europe that states that “*whenever human subjects have their lives significantly impacted by an automatic decision making machine, the human subject has the right to know why the decision is made- i.e. right to explanation*”. This is supposed to turn into a law as early as 2018. So this isn't just an academic exercise anymore!
 
@@ -131,12 +133,12 @@ Similar to CAM, Grad-CAM heat-map is a weighted combination of feature maps, but
 
 $$ L_{\text{Grad-CAM}}^{c} = ReLU \underbrace{\left(\sum_k \alpha{}_{k}^{c} A^{k}\right)}_{\text{linear combination}} $$
 
-> Notice that this results in a coarse heat-map of the same size as the convolutional feature maps ($$ 14 \times 14 $$ in the case of last convolutional layers of VGG and AlexNet networks). 
+> Note that this results in a coarse heat-map of the same size as the convolutional feature maps ($$ 14 \times 14 $$ in the case of last convolutional layers of VGG and AlexNet networks). 
 
-If the architecture is already CAM compatible – the weights learned in CAM are precisely the weights computed in Grad-CAM. Other than the ReLU, this makes **Grad-CAM a generalization of CAM**. This generalization is what allows Grad-CAM to be applicable to ***any CNN-based architecture***. 
 
 <center><img src="http://i.imgur.com/4CKwYOR.jpg" style="width: 600px;" ></center>
 
+If the architecture is already CAM compatible – the weights learned in CAM are precisely the weights computed in Grad-CAM. Other than the ReLU, this makes **Grad-CAM a generalization of CAM**. This generalization is what allows Grad-CAM to be applicable to ***any CNN-based architecture***. 
 
 ### **Guided Grad-CAM**
 While Grad-CAM visualizations are class-discriminative and localize relevant image regions well, they lack the ability to show fine-grained importance like pixel-space gradient visualization methods (Guided Backpropagation and Deconvolution). For example take the case of the left image in the above figure, Grad-CAM can easily localize the cat region; however, it is unclear from the low-resolutions of the heat-map why the network predicts this particular instance is ‘tiger cat’. In order to combine the best aspects of both, we can fuse Guided Backpropagation and the Grad-CAM visualizations via a pointwise multiplication. GradCAM overview figure above illustrates this fusion. 
@@ -157,6 +159,8 @@ Here is a quick video showing some of its functionalities.
 <iframe width="756" height="455" src="https://www.youtube.com/embed/COjUB9Izk6E?start=160&end=198&" frameborder="0" allowfullscreen></iframe>
 </center>
 So, go ahead try it out with images of your interest, and let us know your comments/suggestions.
+
+----------
 
 ## Going beyond classification
 
@@ -212,6 +216,8 @@ Here is an example:
 </center>
 
 It is interesting to see that **common CNN + LSTM models are pretty good at localizing discriminative input regions despite not being trained on grounded image-text pairs**.
+
+----------
 
 ## Negative Explanations with Grad-CAM
 
