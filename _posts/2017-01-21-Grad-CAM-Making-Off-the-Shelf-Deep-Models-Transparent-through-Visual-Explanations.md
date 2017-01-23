@@ -1,8 +1,8 @@
 ---
 layout: post
-comments: false
+comments: true
 #title:  "Grad-CAM: Making Off-the-shelf Deep Models Transparent through Visual Explanations"
-title: "Yes, Deep Networks are great, but are they Trust-worthy?"
+title: "Yes, Deep Networks are great, but are they Trustworthy?"
 #title: "Deep Networks look right, but do they look at the right regions?"
 date:   2017-01-21 22:00:00
 mathjax: true
@@ -88,15 +88,15 @@ As we can see, there are 2 categories here - dog and cat. Lets visualize regions
 
 This is bad.  The visualization is unable to distinguish between pixels of cat and dog. In other words, the **visualization is not class-discriminative.** 
 
-So, approximating the whole network as a linear function didn't give us anything great. What if we visualize the final fully-connected layer (i.e. visualize the gradient of the loss wrt to the penultimate fully-connected layer activations)? Problem: It is not possible to visualize a scalar. We need a tensor to visualize. We will look at how Bolei Zhou's Class Activation Mapping uses this tensor product to interpret Image Classification CNNs.
+So, approximating the whole network as a linear function didn't give us anything great. So why approximate the whole network, let's directly visualize the final layer, i.e. last fully-connected layer (i.e. visualize the gradient of the loss wrt to the penultimate fully-connected layer activations)? Problem: The activations of fully-connected layers are scalars, and it is not possible to visualize a scalar. We need a tensor to visualize. We will look at how Bolei Zhou's Class Activation Mapping uses a tensor product to interpret Image Classification CNNs.
 
 ### Class Activation Mapping
 
-It is known that as the depth of a CNN increases, higher-level visual constructs are captured. Furthermore, convolutional layers naturally retain spatial information which is lost in fully-connected layers, so we can expect the last convolutional layers to have the best compromise between high-level semantics and detailed spatial information. The neurons in these layers look for semantic class-specific information in the image (say object parts). Knowing the importance of each neuron activation (feature maps) for a particular class of interest can help us better understand where the whole deep model is looking at. For example, to understand why a neural network would predict "person" for given image, we would ideally expect the neural network to recognize that the feature maps that looks for the hands, faces, legs, etc. are more important than other feature maps. 
+It is known for a fact that as the depth of a CNN increases, higher-level visual concepts are captured. Furthermore, convolutional layers naturally retain spatial information which is lost in fully-connected layers, so we can expect the last convolutional layers to have the best compromise between high-level semantics and detailed spatial information. The neurons in these layers look for semantic class-specific information in the image (say object parts). Knowing the importance of each neuron activation (feature maps) for a particular class of interest can help us better understand where the whole deep model is looking at. For example, to understand why a neural network would predict "person" for given image, we would ideally expect the neural network to recognize that the feature maps that looks for the hands, faces, legs, etc. are more important than other feature maps. 
 
 We know that the activations till the last convolutional layers (feature maps) are tensors. If we had a network in which the convolutional layers were followed directly by a prediction layer without any fully connected layers, we would have exactly what we need - a tensor product which can easily be visualized. 
 
-[CAM](http://cnnlocalization.csail.mit.edu/Zhou_Learning_Deep_Features_CVPR_2016_paper.pdf) does exactly this - modify the base network to remove all fully-connected layers at the end, and include a tensor product (followed by softmax), which takes as input the Global-Average-Pooled convolutional feature maps, and outputs the probability for each class. Note that this modification of architecture forces us to retrain the network.
+[CAM](http://cnnlocalization.csail.mit.edu/Zhou_Learning_Deep_Features_CVPR_2016_paper.pdf) does exactly this - modifying the base network to remove all fully-connected layers at the end, and including a tensor product (followed by softmax), which takes as input the Global-Average-Pooled convolutional feature maps, and outputs the probability for each class. Note that this modification of architecture forces us to retrain the network.
 
 <center><img src="http://i.giphy.com/26xBL7wCaRe6SqFDq.gif" style="width: 600px;" ></center>
 
