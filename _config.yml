@@ -119,7 +119,7 @@ syntax-highlight: True
 
 events:
   
-  - image: "/img/timeline/gt.png"
+  - image: "/img/GT.jpg"
     date: "Aug 2017 - Today"
     description: "Ph.D Student advised by Devi Parikh"
   
