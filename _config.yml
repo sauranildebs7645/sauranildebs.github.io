@@ -119,7 +119,7 @@ syntax-highlight: True
 
 events:
   
-  - image: "/img/GT.jpg"
+  - image: "/img/timeline/GT.jpg"
     date: "Aug 2017 - Today"
     description: "Ph.D Student advised by Devi Parikh"
   
@@ -146,13 +146,13 @@ events:
 
 # First image of the Timeline
 
-timeline-img: "/img/ram.jpeg"
+timeline-img: "/img/Ram.jpg"
 
 ###########
 # Contact #
 ###########
 
-email: "ram21 at vt dot edu"
+email: "ramprs@gatech.edu"
 
 ################
 # Author Blurb #
