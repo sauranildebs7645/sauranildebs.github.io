@@ -39,9 +39,9 @@ favicon: "/img/favicon.ico"
 # Header layout #
 ################
 
-black-favicon: "/img/favicon-me.png"
+black-favicon: "/img/favicon-96x96.png"
 
-background-img: "../img/yosemite.png"
+background-img: "/img/yosemite.png"
 
 ##############################
 # Dynamic Text on the Header #
@@ -67,7 +67,7 @@ background-img: "../img/yosemite.png"
     # its AI when your machine learned everything you know and you know everything your machine learned
 
 
-me-img: "/img/ram.png"
+me-img: "/img/Ram.jpg"
 
 ##############################
 # Color the browser elements #
