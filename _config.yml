@@ -32,7 +32,7 @@ lang: "en"
 author: "Ram"
 title: "Ramprasaath"
 description: "Blog and website of Ramprasaath."
-keywords: "ramprasaath, ram, prasaath, computer vision, neural networks, deep learning, interpretability, transparency, Grad-CAM "
+keywords: "ramprasaath, ram, selvaraju, computer vision, neural networks, deep learning, interpretability, transparency, explanations, Grad-CAM "
 favicon: "/img/favicon.ico"
 
 ################
@@ -41,7 +41,7 @@ favicon: "/img/favicon.ico"
 
 black-favicon: "/img/favicon-me.png"
 
-background-img: "../img/ram_cvmlp.jpg"
+background-img: "../img/yosemite.png"
 
 ##############################
 # Dynamic Text on the Header #
@@ -67,7 +67,7 @@ background-img: "../img/ram_cvmlp.jpg"
     # its AI when your machine learned everything you know and you know everything your machine learned
 
 
-me-img: "/img/ram.jpeg"
+me-img: "/img/ram.png"
 
 ##############################
 # Color the browser elements #
@@ -118,8 +118,13 @@ syntax-highlight: True
 ############
 
 events:
+  
+  - image: "/img/timeline/gt.png"
+    date: "Aug 2017 - Today"
+    description: "Ph.D Student advised by Devi Parikh"
+  
   - image: "/img/timeline/VT.png"
-    date: "Aug 2015 - Today"
+    date: "Aug 2015 - July 2017"
     description: "Ph.D Student advised by Devi Parikh"
   
   - image: "/img/timeline/VT.png"
