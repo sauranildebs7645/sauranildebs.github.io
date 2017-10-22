@@ -30,7 +30,7 @@ force-https: True
 
 lang: "en"
 author: "Ram"
-title: "Ramprasaath"
+title: "Ram"
 description: "Blog and website of Ramprasaath."
 keywords: "ramprasaath, ram, selvaraju, computer vision, neural networks, deep learning, interpretability, transparency, explanations, Grad-CAM "
 favicon: "/img/favicon.ico"
