@@ -67,7 +67,7 @@ background-img: "/img/yosemite.png"
     # its AI when your machine learned everything you know and you know everything your machine learned
 
 
-me-img: "/img/Ram_headshot.jpg"
+me-img: "/img/Ram_headshot.jpeg"
 
 ##############################
 # Color the browser elements #
@@ -146,7 +146,7 @@ events:
 
 # First image of the Timeline
 
-timeline-img: "/img/Ram_headshot.jpg"
+timeline-img: "/img/Ram_headshot.jpeg"
 
 ###########
 # Contact #
