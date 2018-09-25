@@ -118,7 +118,14 @@ syntax-highlight: True
 ############
 
 events:
+  - image: "/img/timeline/samsung.png"
+    date: "May 2018 - July 2018"
+    description: "Research intern at Samsung Research America"
   
+  - image: "/img/timeline/facebook.png"
+    date: "Jan 2017 - May 2017"
+    description: "Research intern at AML (Applied Machine Learning)"
+
   - image: "/img/timeline/georgia-tech-athletics.png"
     date: "Aug 2017 - Today"
     description: "Ph.D Student advised by Devi Parikh"
